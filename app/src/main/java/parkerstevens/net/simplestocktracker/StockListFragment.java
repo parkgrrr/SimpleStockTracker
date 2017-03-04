@@ -47,13 +47,12 @@ public class StockListFragment extends Fragment {
 
         public StockHolder(ListItemStockBinding binding) {
             super(binding.getRoot());
-
-
             mBinding = binding;
+            mBinding.setViewModel(new StockViewModel(mStocksHelper));
         }
 
         public void bind(Stock stock){
-            mBinding.companyNameText.setText(stock.getName());
+            mBinding.getViewModel().setStock(stock);
             mBinding.executePendingBindings();
         }
 
