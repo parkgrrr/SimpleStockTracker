@@ -22,6 +22,8 @@ import parkerstevens.net.simplestocktracker.databinding.ListItemStockBinding;
 public class StockListFragment extends Fragment {
 
     private StocksHelper mStocksHelper;
+    private List<Stock> mStocks;
+    private StockAdapter mStockAdapter;
 
     public static StockListFragment newInstance() {return new StockListFragment();}
 
@@ -29,18 +31,23 @@ public class StockListFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mStocksHelper = StocksHelper.get(getActivity());
+
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        mStockAdapter = new StockAdapter(mStocksHelper.getStocks());
+
         FragmentStockListBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_stock_list, container, false);
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        binding.recyclerView.setAdapter(new StockAdapter(mStocksHelper.getStocks()));
+        binding.recyclerView.setAdapter(mStockAdapter);
+        mStocksHelper.fetchStocks(mStockAdapter);
 
         return binding.getRoot();
 
     }
+
 
     private class StockHolder extends RecyclerView.ViewHolder {
         private ListItemStockBinding mBinding;
@@ -48,19 +55,19 @@ public class StockListFragment extends Fragment {
         public StockHolder(ListItemStockBinding binding) {
             super(binding.getRoot());
             mBinding = binding;
-            mBinding.setViewModel(new StockViewModel(mStocksHelper));
+            mBinding.setViewModel(new StockViewModel(getContext()));
         }
 
         public void bind(Stock stock){
             mBinding.getViewModel().setStock(stock);
-            mBinding.executePendingBindings();
+            //mBinding.executePendingBindings();
         }
 
 
 
     }
 
-    private class StockAdapter extends RecyclerView.Adapter<StockHolder> {
+    public class StockAdapter extends RecyclerView.Adapter<StockHolder> {
         List<Stock> mStockList;
 
         public StockAdapter(List<Stock> stockList) {
@@ -85,5 +92,12 @@ public class StockListFragment extends Fragment {
         public int getItemCount() {
             return mStockList.size();
         }
+
+        public void addStockToList(Stock stock){
+            mStockList.add(stock);
+            this.notifyDataSetChanged();
+        }
     }
+
+
 }

@@ -1,5 +1,6 @@
 package parkerstevens.net.simplestocktracker;
 
+import android.content.Context;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 
@@ -11,8 +12,8 @@ public class StockViewModel extends BaseObservable {
     private StocksHelper mStocksHelper;
     private Stock mStock;
 
-    public StockViewModel(StocksHelper stocksHelper) {
-        mStocksHelper = stocksHelper;
+    public StockViewModel(Context context) {
+        mStocksHelper = StocksHelper.get(context);
     }
 
     public void setStock(Stock stock){
@@ -28,4 +29,5 @@ public class StockViewModel extends BaseObservable {
 
     @Bindable
     public String getLastPrice(){return mStock.getLastPrice() + "";}
+
 }
