@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">SimpleStockTracker</string>
+    <string name="app_name">Simple Stock Tracker</string>
+    <string name="search_button">Search</string>
 </resources>

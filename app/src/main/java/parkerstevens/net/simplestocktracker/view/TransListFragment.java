@@ -14,12 +14,13 @@ import java.util.HashMap;
 import java.util.List;
 
 import parkerstevens.net.simplestocktracker.R;
-import parkerstevens.net.simplestocktracker.viewmodel.StockViewModel;
+import parkerstevens.net.simplestocktracker.viewmodel.StockItemViewModel;
 import parkerstevens.net.simplestocktracker.data.StocksHelper;
 import parkerstevens.net.simplestocktracker.databinding.FragmentStockListBinding;
 import parkerstevens.net.simplestocktracker.databinding.ListItemStockBinding;
 import parkerstevens.net.simplestocktracker.model.Stock;
 import parkerstevens.net.simplestocktracker.model.Transaction;
+import parkerstevens.net.simplestocktracker.viewmodel.TransListViewModel;
 
 /**
  * Created by pstev on 3/3/2017.
@@ -42,9 +43,13 @@ public class TransListFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mStockAdapter = new StockAdapter(mStocksHelper.getTrans());
+        if(mStockAdapter == null){
+            mStockAdapter = new StockAdapter(mStocksHelper.getTransactions());
+        }
+
 
         FragmentStockListBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_stock_list, container, false);
+        binding.setViewModel(new TransListViewModel(getFragmentManager()));
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         binding.recyclerView.setAdapter(mStockAdapter);
         //mStocksHelper.fetchStocks(mStockAdapter);
@@ -67,7 +72,7 @@ public class TransListFragment extends Fragment {
         public StockHolder(ListItemStockBinding binding) {
             super(binding.getRoot());
             mBinding = binding;
-            mBinding.setViewModel(new StockViewModel(getContext()));
+            mBinding.setViewModel(new StockItemViewModel(getContext()));
         }
 
         public void bind(Transaction trans, Stock stock){

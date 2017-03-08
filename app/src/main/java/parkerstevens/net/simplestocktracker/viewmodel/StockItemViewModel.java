@@ -3,7 +3,6 @@ package parkerstevens.net.simplestocktracker.viewmodel;
 import android.content.Context;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
-import android.graphics.Color;
 
 import java.math.BigDecimal;
 
@@ -15,12 +14,12 @@ import parkerstevens.net.simplestocktracker.model.Transaction;
  * Created by pstev on 3/3/2017.
  */
 
-public class StockViewModel extends BaseObservable {
+public class StockItemViewModel extends BaseObservable {
     private StocksHelper mStocksHelper;
     private Stock mStock;
     private Transaction mTrans;
 
-    public StockViewModel(Context context) {
+    public StockItemViewModel(Context context) {
         mStocksHelper = StocksHelper.get(context);
     }
 
@@ -76,11 +75,5 @@ public class StockViewModel extends BaseObservable {
 
     @Bindable
     public String getProfits() {return calcProfits() + ""; }
-
-    @Bindable
-    public int getGreen(){return Color.GREEN;}
-
-    @Bindable
-    public int getRed(){return Color.RED;}
 
 }

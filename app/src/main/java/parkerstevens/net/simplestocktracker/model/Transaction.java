@@ -8,23 +8,23 @@ import java.util.UUID;
  */
 
 public class Transaction {
-    private UUID mTransId;
+    private UUID mId;
     private String mSymbol;
     private int mQuantity;
     private BigDecimal mPrice;
     private BigDecimal mFees;
 
-    public Transaction(String symbol) {
-        mTransId = UUID.randomUUID();
-        setSymbol(symbol);
+    public Transaction(UUID id) {
+        mId = id;
+        //setSymbol(symbol);
     }
 
-    public UUID getTransId() {
-        return mTransId;
+    public UUID getId() {
+        return mId;
     }
 
-    public void setTransId(UUID transId) {
-        mTransId = transId;
+    public void setId(UUID id) {
+        mId = id;
     }
 
     public String getSymbol() {

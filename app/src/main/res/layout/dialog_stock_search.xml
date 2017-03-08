@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="viewModel"
+            type="parkerstevens.net.simplestocktracker.viewmodel.TransListViewModel"/>
+    </data>
+    <android.support.v7.widget.AlertDialogLayout
+        android:id="@+id/search_stock_dialog"
+        android:layout_width="match_parent"
+        android:layout_height="200dp">
+        <LinearLayout
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:orientation="vertical">
+            <EditText
+                android:id="@+id/edit_stock_search"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.searchInput}"
+                tools:text="MSFT"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/search_button"
+                android:onClick="@{()->viewModel.searchOnClick()}"
+                />
+
+        </LinearLayout>
+
+
+    </android.support.v7.widget.AlertDialogLayout>
+
+</layout>
