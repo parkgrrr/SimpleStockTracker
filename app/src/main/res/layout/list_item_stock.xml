@@ -5,7 +5,7 @@
     <data>
         <variable
             name="viewModel"
-            type="parkerstevens.net.simplestocktracker.StockViewModel"/>
+            type="parkerstevens.net.simplestocktracker.viewmodel.StockViewModel"/>
     </data>
 
     <android.support.v7.widget.CardView
@@ -21,7 +21,7 @@
             xmlns:card_view="http://schemas.android.com/apk/res-auto"
             android:id="@+id/stock_list_item"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             card_view:cardCornerRadius="@dimen/cardview_default_radius"
             card_view:cardElevation="@dimen/cardview_default_elevation"
             tools:layout_editor_absoluteX="0dp"
@@ -32,35 +32,65 @@
                 android:id="@+id/last_price_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="36dp"
                 android:layout_marginStart="36dp"
+                android:layout_marginTop="0dp"
                 android:text="@{viewModel.lastPrice}"
-                card_view:layout_constraintLeft_toRightOf="@+id/company_name_text"
                 card_view:layout_constraintTop_toTopOf="parent"
-                tools:text="50.00"/>
+                tools:text="50.00"
+                card_view:layout_constraintLeft_toRightOf="@+id/stock_symbol_text"
+                android:layout_marginLeft="16dp"
+                tools:ignore="RtlHardcoded"/>
 
             <TextView
                 android:id="@+id/stock_symbol_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="26dp"
+                android:layout_marginLeft="44dp"
                 android:layout_marginStart="26dp"
+                android:layout_marginTop="0dp"
                 android:text="@{viewModel.symbol}"
                 card_view:layout_constraintLeft_toLeftOf="parent"
                 card_view:layout_constraintTop_toTopOf="parent"
                 tools:layout_constraintLeft_creator="1"
                 tools:layout_constraintTop_creator="1"
-                tools:text="MSFT"/>
+                tools:text="MSFT"
+                tools:ignore="RtlHardcoded"/>
 
             <TextView
                 android:id="@+id/company_name_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="37dp"
-                android:layout_marginStart="37dp"
+                android:layout_marginBottom="16dp"
+                android:layout_marginLeft="26dp"
                 android:text="@{viewModel.getName}"
-                card_view:layout_constraintLeft_toRightOf="@+id/stock_symbol_text"
-                card_view:layout_constraintTop_toTopOf="parent"/>
+                card_view:layout_constraintBottom_toBottomOf="parent"
+                card_view:layout_constraintLeft_toLeftOf="parent"
+                tools:text="Microsoft"
+                tools:ignore="RtlHardcoded"/>
+
+            <TextView
+                android:id="@+id/stock_percent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.changePercent}"
+                android:textColor="@{viewModel.changePerInt >= 0 ? viewModel.green : viewModel.red }"
+                tools:text="15%"
+                card_view:layout_constraintLeft_toRightOf="@+id/last_price_text"
+                android:layout_marginLeft="41dp"
+                card_view:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="0dp"/>
+
+            <TextView
+                android:id="@+id/change_dollars"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.changeDollars}"
+                android:textColor="@{viewModel.changePerInt >= 0 ? viewModel.green : viewModel.red}"
+                tools:text="$2.00"
+                card_view:layout_constraintLeft_toRightOf="@+id/stock_percent"
+                android:layout_marginLeft="24dp"
+                card_view:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="0dp"/>
 
 
         </android.support.constraint.ConstraintLayout>

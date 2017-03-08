@@ -1,4 +1,4 @@
-package parkerstevens.net.simplestocktracker;
+package parkerstevens.net.simplestocktracker.view;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -13,8 +13,13 @@ import android.view.ViewGroup;
 import java.util.HashMap;
 import java.util.List;
 
+import parkerstevens.net.simplestocktracker.R;
+import parkerstevens.net.simplestocktracker.viewmodel.StockViewModel;
+import parkerstevens.net.simplestocktracker.data.StocksHelper;
 import parkerstevens.net.simplestocktracker.databinding.FragmentStockListBinding;
 import parkerstevens.net.simplestocktracker.databinding.ListItemStockBinding;
+import parkerstevens.net.simplestocktracker.model.Stock;
+import parkerstevens.net.simplestocktracker.model.Transaction;
 
 /**
  * Created by pstev on 3/3/2017.

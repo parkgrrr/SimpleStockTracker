@@ -1,4 +1,4 @@
-package parkerstevens.net.simplestocktracker;
+package parkerstevens.net.simplestocktracker.data;
 
 import android.content.Context;
 import android.util.Log;
@@ -9,6 +9,9 @@ import com.google.gson.GsonBuilder;
 import java.util.ArrayList;
 import java.util.List;
 
+import parkerstevens.net.simplestocktracker.model.Stock;
+import parkerstevens.net.simplestocktracker.model.Transaction;
+import parkerstevens.net.simplestocktracker.view.TransListFragment;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -60,7 +63,7 @@ public class StocksHelper{
 
         for(int i = 0; i < 5; i++){
 
-           quotes.add(new Transaction("MSFT"));
+           quotes.add(new Transaction("GPRO"));
         }
 
         for (final Transaction trans:

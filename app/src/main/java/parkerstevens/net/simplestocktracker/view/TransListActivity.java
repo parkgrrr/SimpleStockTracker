@@ -1,4 +1,4 @@
-package parkerstevens.net.simplestocktracker;
+package parkerstevens.net.simplestocktracker.view;
 
 import android.support.v4.app.Fragment;
 

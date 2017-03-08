@@ -1,6 +1,7 @@
-package parkerstevens.net.simplestocktracker;
+package parkerstevens.net.simplestocktracker.data;
 
-import okhttp3.ResponseBody;
+import parkerstevens.net.simplestocktracker.model.CompanyLookup;
+import parkerstevens.net.simplestocktracker.model.Stock;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
@@ -15,6 +16,6 @@ public interface MarkitOnDemandApiInterface {
     Call<Stock> getQuote(@Query("symbol")String symbol);
 
     @GET("Lookup/json")
-    Call<ResponseBody> getLookup(@Query("input") String input);
+    Call<CompanyLookup> getLookup(@Query("input") String input);
 
 }

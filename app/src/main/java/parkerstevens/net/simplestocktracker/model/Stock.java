@@ -1,4 +1,4 @@
-package parkerstevens.net.simplestocktracker;
+package parkerstevens.net.simplestocktracker.model;
 
 
 import com.google.gson.annotations.SerializedName;

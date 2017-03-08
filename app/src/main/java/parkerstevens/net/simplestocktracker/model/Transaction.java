@@ -1,5 +1,6 @@
-package parkerstevens.net.simplestocktracker;
+package parkerstevens.net.simplestocktracker.model;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 /**
@@ -10,8 +11,8 @@ public class Transaction {
     private UUID mTransId;
     private String mSymbol;
     private int mQuantity;
-    private double mPrice;
-    private int mFees;
+    private BigDecimal mPrice;
+    private BigDecimal mFees;
 
     public Transaction(String symbol) {
         mTransId = UUID.randomUUID();
@@ -44,19 +45,19 @@ public class Transaction {
         mQuantity = quantity;
     }
 
-    public double getPrice() {
+    public BigDecimal getPrice() {
         return mPrice;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(BigDecimal price) {
         mPrice = price;
     }
 
-    public int getFees() {
+    public BigDecimal getFees() {
         return mFees;
     }
 
-    public void setFees(int fees) {
+    public void setFees(BigDecimal fees) {
         mFees = fees;
     }
 }
