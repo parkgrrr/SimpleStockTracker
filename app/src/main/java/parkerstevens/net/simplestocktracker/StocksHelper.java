@@ -27,7 +27,7 @@ public class StocksHelper{
     private Retrofit mRetrofit;
     private Gson mGson;
     private MarkitOnDemandApiInterface mMarkitApi;
-    private List<Stock> mStocks = new ArrayList<>();
+    private List<Transaction> mTrans = new ArrayList<>();
 
 
     public static StocksHelper get(Context context){
@@ -46,28 +46,32 @@ public class StocksHelper{
         return mMarkitApi;
     }
 
-    public List<Stock> getStocks() {
-        return mStocks;
+    public List<Transaction> getTrans() {
+        return mTrans;
     }
 
-    public void fetchStocks(final StockListFragment.StockAdapter stockAdapter){
-        List<String> quotes = new ArrayList<>();
+    public void addTransaction(Transaction trans) {
+        mTrans.add(trans);
+    }
+
+    public void fetchStocks(final TransListFragment.StockAdapter stockAdapter){
+        List<Transaction> quotes = new ArrayList<>();
 
 
         for(int i = 0; i < 5; i++){
 
-            quotes.add("MSFT");
+           quotes.add(new Transaction("MSFT"));
         }
 
-        for (String quote:
-             quotes) {
-            Call<Stock> call = mMarkitApi.getQuote(quote);
+        for (final Transaction trans:
+            quotes) {
+            Call<Stock> call = mMarkitApi.getQuote(trans.getSymbol());
             call.enqueue(new Callback<Stock>() {
                 @Override
                 public void onResponse(Call<Stock> call, Response<Stock> response) {
                     if(response.isSuccessful()){
                         Stock stock = response.body();
-                        stockAdapter.addStockToList(stock);
+                        stockAdapter.addStockToList(stock, trans);
                         Log.i(TAG, "onresponse exec for " + stock.getName());
                     }
 
@@ -81,6 +85,30 @@ public class StocksHelper{
             });
 
         }
+
+    }
+
+    public void fetchStock(final TransListFragment.StockAdapter stockAdapter, final Transaction trans){
+
+
+        Call<Stock> call = mMarkitApi.getQuote(trans.getSymbol());
+        call.enqueue(new Callback<Stock>() {
+            @Override
+            public void onResponse(Call<Stock> call, Response<Stock> response) {
+                if(response.isSuccessful()){
+                    Stock stock = response.body();
+                    stockAdapter.addStockToList(stock, trans);
+                    Log.i(TAG, "onresponse exec for " + stock.getName());
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<Stock> call, Throwable t) {
+                Log.e(TAG, "Failed API call", t);
+
+            }
+        });
 
     }
 

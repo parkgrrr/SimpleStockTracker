@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.HashMap;
 import java.util.List;
 
 import parkerstevens.net.simplestocktracker.databinding.FragmentStockListBinding;
@@ -19,13 +20,12 @@ import parkerstevens.net.simplestocktracker.databinding.ListItemStockBinding;
  * Created by pstev on 3/3/2017.
  */
 
-public class StockListFragment extends Fragment {
+public class TransListFragment extends Fragment {
 
     private StocksHelper mStocksHelper;
-    private List<Stock> mStocks;
     private StockAdapter mStockAdapter;
 
-    public static StockListFragment newInstance() {return new StockListFragment();}
+    public static TransListFragment newInstance() {return new TransListFragment();}
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,14 +42,21 @@ public class StockListFragment extends Fragment {
         FragmentStockListBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_stock_list, container, false);
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         binding.recyclerView.setAdapter(mStockAdapter);
-        mStocksHelper.fetchStocks(mStockAdapter);
+        //mStocksHelper.fetchStocks(mStockAdapter);
+        refreshStocks(mStockAdapter);
 
         return binding.getRoot();
 
     }
 
+    public void refreshStocks(StockAdapter adapter){
+        //mTrans = mStocksHelper.getTrans();
+        adapter.mTransList.clear();
+        mStocksHelper.fetchStocks(adapter);
+    }
 
-    private class StockHolder extends RecyclerView.ViewHolder {
+
+    public class StockHolder extends RecyclerView.ViewHolder {
         private ListItemStockBinding mBinding;
 
         public StockHolder(ListItemStockBinding binding) {
@@ -58,9 +65,14 @@ public class StockListFragment extends Fragment {
             mBinding.setViewModel(new StockViewModel(getContext()));
         }
 
-        public void bind(Stock stock){
+        public void bind(Transaction trans, Stock stock){
+            mBinding.getViewModel().setTrans(trans);
             mBinding.getViewModel().setStock(stock);
             //mBinding.executePendingBindings();
+        }
+
+        public void bind(Transaction trans){
+            mBinding.getViewModel().setTrans(trans);
         }
 
 
@@ -68,10 +80,11 @@ public class StockListFragment extends Fragment {
     }
 
     public class StockAdapter extends RecyclerView.Adapter<StockHolder> {
-        List<Stock> mStockList;
+        List<Transaction> mTransList;
+        HashMap<String,Stock> mStockHash = new HashMap<>();
 
-        public StockAdapter(List<Stock> stockList) {
-            mStockList = stockList;
+        public StockAdapter(List<Transaction> transList) {
+            mTransList = transList;
         }
 
         @Override
@@ -84,17 +97,28 @@ public class StockListFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(StockHolder holder, int position) {
-            Stock stock = mStockList.get(position);
-            holder.bind(stock);
+            Transaction trans = mTransList.get(position);
+            if(!mStockHash.isEmpty())
+            {
+                Stock stock = mStockHash.get(trans.getSymbol());
+                holder.bind(trans, stock);
+                return;
+            }
+
+            //String symbol = trans.getSymbol();
+           // mStocksHelper.fetchStock(this, trans);
+            holder.bind(trans);
         }
 
         @Override
         public int getItemCount() {
-            return mStockList.size();
+            return mTransList.size();
         }
 
-        public void addStockToList(Stock stock){
-            mStockList.add(stock);
+        public void addStockToList(Stock stock, Transaction trans){
+           // mStockList.add(stock);
+            mStockHash.put(stock.getSymbol(), stock);
+            mTransList.add(trans);
             this.notifyDataSetChanged();
         }
     }

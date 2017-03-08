@@ -6,28 +6,35 @@ import java.util.UUID;
  * Created by pstev on 3/7/2017.
  */
 
-public class Transactions {
-    private UUID transId;
+public class Transaction {
+    private UUID mTransId;
     private String mSymbol;
     private int mQuantity;
     private double mPrice;
     private int mFees;
+
+    public Transaction(String symbol) {
+        mTransId = UUID.randomUUID();
+        setSymbol(symbol);
+    }
+
+    public UUID getTransId() {
+        return mTransId;
+    }
+
+    public void setTransId(UUID transId) {
+        mTransId = transId;
+    }
 
     public String getSymbol() {
         return mSymbol;
     }
 
     public void setSymbol(String symbol) {
+        symbol.toUpperCase();
         mSymbol = symbol;
     }
 
-    public UUID getTransId() {
-        return transId;
-    }
-
-    public void setTransId(UUID transId) {
-        this.transId = transId;
-    }
 
     public int getQuantity() {
         return mQuantity;

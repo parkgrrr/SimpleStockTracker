@@ -1,6 +1,9 @@
 package parkerstevens.net.simplestocktracker;
 
+
 import com.google.gson.annotations.SerializedName;
+
+import java.math.BigDecimal;
 
 /**
  * Created by pstev on 3/3/2017.
@@ -12,19 +15,19 @@ public class Stock {
     @SerializedName("Symbol")
     private String mSymbol;
     @SerializedName("LastPrice")
-    private double mLastPrice;
+    private BigDecimal mLastPrice;
     @SerializedName("Change")
     private double mChange;
-    @SerializedName("hangePresent")
-    private double mChangePresent;
+    @SerializedName("ChangePercent")
+    private double mChangePercent;
     @SerializedName("TimeStamp")
     private String mTimeStamp;
     @SerializedName("MarketCap")
-    private double mMarketCap;
+    private BigDecimal mMarketCap;
     @SerializedName("Volume")
     private int mVolume;
     @SerializedName("ChangeYTD")
-    private double mChangeYTD;
+    private BigDecimal mChangeYTD;
     @SerializedName("ChangePercentYTD")
     private double mChangePercentYTD;
     @SerializedName("High")
@@ -50,11 +53,11 @@ public class Stock {
         mSymbol = symbol;
     }
 
-    public double getLastPrice() {
+    public BigDecimal getLastPrice() {
         return mLastPrice;
     }
 
-    public void setLastPrice(double lastPrice) {
+    public void setLastPrice(BigDecimal lastPrice) {
         mLastPrice = lastPrice;
     }
 
@@ -66,12 +69,12 @@ public class Stock {
         mChange = change;
     }
 
-    public double getChangePresent() {
-        return mChangePresent;
+    public double getChangePercent() {
+        return mChangePercent;
     }
 
-    public void setChangePresent(double changePresent) {
-        mChangePresent = changePresent;
+    public void setChangePercent(double changePresent) {
+        mChangePercent = changePresent;
     }
 
     public String getTimeStamp() {
@@ -82,11 +85,11 @@ public class Stock {
         mTimeStamp = timeStamp;
     }
 
-    public double getMarketCap() {
+    public BigDecimal getMarketCap() {
         return mMarketCap;
     }
 
-    public void setMarketCap(double marketCap) {
+    public void setMarketCap(BigDecimal marketCap) {
         mMarketCap = marketCap;
     }
 
@@ -98,11 +101,11 @@ public class Stock {
         mVolume = volume;
     }
 
-    public double getChangeYTD() {
+    public BigDecimal getChangeYTD() {
         return mChangeYTD;
     }
 
-    public void setChangeYTD(double changeYTD) {
+    public void setChangeYTD(BigDecimal changeYTD) {
         mChangeYTD = changeYTD;
     }
 

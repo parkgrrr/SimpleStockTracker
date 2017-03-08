@@ -11,6 +11,7 @@ import android.databinding.Bindable;
 public class StockViewModel extends BaseObservable {
     private StocksHelper mStocksHelper;
     private Stock mStock;
+    private Transaction mTrans;
 
     public StockViewModel(Context context) {
         mStocksHelper = StocksHelper.get(context);
@@ -21,6 +22,10 @@ public class StockViewModel extends BaseObservable {
         notifyChange();
     }
 
+    public void setTrans(Transaction trans) {
+        mTrans = trans;
+    }
+
     @Bindable
     public String getName(){ return mStock.getName();}
 
@@ -29,5 +34,6 @@ public class StockViewModel extends BaseObservable {
 
     @Bindable
     public String getLastPrice(){return mStock.getLastPrice() + "";}
+
 
 }
