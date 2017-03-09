@@ -65,7 +65,7 @@ public class StockSearchDialogFragment extends AppCompatDialogFragment {
         public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
             CompanyLookup lookup = getItem(position);
             ListItemLookupBinding itemBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.list_item_lookup, parent, false);
-            itemBinding.setViewModel(new LookupItemViewModel());
+            itemBinding.setViewModel(new LookupItemViewModel(getFragmentManager()));
             itemBinding.getViewModel().setLookup(lookup);
 
             return itemBinding.getRoot();
