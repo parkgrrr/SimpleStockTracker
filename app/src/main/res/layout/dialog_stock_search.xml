@@ -4,31 +4,37 @@
     <data>
         <variable
             name="viewModel"
-            type="parkerstevens.net.simplestocktracker.viewmodel.TransListViewModel"/>
+            type="parkerstevens.net.simplestocktracker.viewmodel.StockSearchDialogViewModel"/>
     </data>
     <android.support.v7.widget.AlertDialogLayout
         android:id="@+id/search_stock_dialog"
         android:layout_width="match_parent"
-        android:layout_height="200dp">
+        android:layout_height="400dp">
         <LinearLayout
             android:layout_height="match_parent"
             android:layout_width="match_parent"
             android:orientation="vertical">
+
             <EditText
                 android:id="@+id/edit_stock_search"
-                android:layout_gravity="center_horizontal"
-                android:layout_width="100dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{viewModel.searchInput}"
+                android:layout_gravity="center_horizontal"
+                android:text="@={viewModel.searchInput}"
+                android:textAlignment="center"
                 tools:text="MSFT"/>
+
             <Button
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:text="@string/search_button"
                 android:onClick="@{()->viewModel.searchOnClick()}"
+                android:text="@string/search_button"
                 />
-
+            <ListView
+                android:id="@+id/search_dialog_list_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
         </LinearLayout>
 
 

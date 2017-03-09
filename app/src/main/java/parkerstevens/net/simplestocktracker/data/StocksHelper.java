@@ -34,7 +34,8 @@ public class StocksHelper{
     private static StocksHelper mStocksHelper;
     private Context mContext;
     private SQLiteDatabase mDatabase;
-    private MarkitOnDemandApiInterface mMarkitApi;
+    //private MarkitOnDemandApiInterface mMarkitApi;
+    private ApiHelper.MarkitOnDemandApiInterface mMarkitApi;
     private List<Transaction> mTrans = new ArrayList<>();
 
 
@@ -49,7 +50,7 @@ public class StocksHelper{
         mContext = context.getApplicationContext();
         mDatabase = new StockTrackerDbHelper(mContext)
                 .getWritableDatabase();
-        setupRetrofit();
+        //setupRetrofit();
     }
 
     public void addTransaction(Transaction t) {
@@ -67,9 +68,9 @@ public class StocksHelper{
         new String[] {uuidString});
     }
 
-    public MarkitOnDemandApiInterface getMarkitApi() {
-        return mMarkitApi;
-    }
+    //public MarkitOnDemandApiInterface getMarkitApi() {
+       // return mMarkitApi;
+    //}
 
     public List<Transaction> getTransactions() {
         List<Transaction> transactions = new ArrayList<>();
@@ -132,6 +133,7 @@ public class StocksHelper{
     }
 
     public void fetchStocks(final TransListFragment.StockAdapter stockAdapter){
+        mMarkitApi = ApiHelper.setupRetrofit();
         List<Transaction> quotes = getTransactions();
 
         for (final Transaction trans:
@@ -161,6 +163,7 @@ public class StocksHelper{
 
     public void fetchStock(final TransListFragment.StockAdapter stockAdapter, final Transaction trans){
 
+        mMarkitApi = ApiHelper.setupRetrofit();
 
         Call<Stock> call = mMarkitApi.getQuote(trans.getSymbol());
         call.enqueue(new Callback<Stock>() {
@@ -193,6 +196,6 @@ public class StocksHelper{
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
 
-        mMarkitApi = retrofit.create(MarkitOnDemandApiInterface.class);
+        mMarkitApi = retrofit.create(ApiHelper.MarkitOnDemandApiInterface.class);
     }
 }
