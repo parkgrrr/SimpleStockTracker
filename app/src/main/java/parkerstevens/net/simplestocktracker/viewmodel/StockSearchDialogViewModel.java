@@ -3,7 +3,6 @@ package parkerstevens.net.simplestocktracker.viewmodel;
 
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
-import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 
@@ -23,12 +22,10 @@ import retrofit2.Response;
 
 public class StockSearchDialogViewModel extends BaseObservable {
     private final String TAG = "StockSearchViewModel";
-    private FragmentManager mFragmentManager;
     private String mSearchInput;
     private ArrayAdapter mLookupAdapter;
 
-    public StockSearchDialogViewModel(FragmentManager fragmentManager, StockSearchDialogFragment.LookupAdapter lookupAdapter) {
-        mFragmentManager = fragmentManager;
+    public StockSearchDialogViewModel(StockSearchDialogFragment.LookupAdapter lookupAdapter) {
         mLookupAdapter = lookupAdapter;
     }
 
@@ -50,7 +47,7 @@ public class StockSearchDialogViewModel extends BaseObservable {
 
     }
 
-    public void fetchLookup(String input){
+    public void fetchLookup(final String input){
         ApiHelper.MarkitOnDemandApiInterface apiInterface = ApiHelper.setupRetrofit();
         Call<List<CompanyLookup>> call = apiInterface.getLookup(input);
         call.enqueue(new Callback<List<CompanyLookup>>() {
@@ -60,8 +57,12 @@ public class StockSearchDialogViewModel extends BaseObservable {
                     List<CompanyLookup> lookup = response.body();
                    // stockAdapter.addStockToList(stock, trans);
                     mLookupAdapter.clear();
-                    mLookupAdapter.addAll(lookup);
-                    Log.i(TAG, "onresponse exec for " + lookup.get(0).getName());
+                    if(lookup.size() > 0){
+                        mLookupAdapter.addAll(lookup);
+                    }
+
+
+                    Log.i(TAG, "onresponse exec for " + input);
                 }
             }
 

@@ -8,7 +8,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.UUID;
+
 import parkerstevens.net.simplestocktracker.R;
+import parkerstevens.net.simplestocktracker.data.StocksHelper;
 import parkerstevens.net.simplestocktracker.databinding.FragmentTransactionDetailBinding;
 import parkerstevens.net.simplestocktracker.model.CompanyLookup;
 import parkerstevens.net.simplestocktracker.viewmodel.TransactionDetailViewModel;
@@ -19,10 +22,13 @@ import parkerstevens.net.simplestocktracker.viewmodel.TransactionDetailViewModel
 
 public class TransactionDetailsFragment extends Fragment {
     private static final String ARG_SYMBOL = "lookupStockSymbol";
+    private static final String ARG_ID = "transactionId";
+    private TransactionDetailViewModel mViewModel;
 
     public static TransactionDetailsFragment newInstance(CompanyLookup lookup){
         Bundle args = new Bundle();
         args.putString(ARG_SYMBOL, lookup.getSymbol());
+        args.putSerializable(ARG_ID, UUID.randomUUID());
         TransactionDetailsFragment fragment = new TransactionDetailsFragment();
         fragment.setArguments(args);
 
@@ -32,14 +38,23 @@ public class TransactionDetailsFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         //return super.onCreateView(inflater, container, savedInstanceState);
+        mViewModel = new TransactionDetailViewModel(getArguments().getString(ARG_SYMBOL), (UUID)getArguments().getSerializable(ARG_ID));
         FragmentTransactionDetailBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_transaction_detail, container, false);
-        binding.setViewModel(new TransactionDetailViewModel(getArguments().getString(ARG_SYMBOL)));
+        binding.setViewModel(mViewModel);
         return binding.getRoot();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mViewModel.addTranscation(StocksHelper.get(getContext()));
+
     }
 }

@@ -30,6 +30,7 @@ public class TransListFragment extends Fragment {
 
     private StocksHelper mStocksHelper;
     private StockAdapter mStockAdapter;
+    private TransListViewModel mTransListViewModel;
 
     public static TransListFragment newInstance() {return new TransListFragment();}
 
@@ -46,23 +47,26 @@ public class TransListFragment extends Fragment {
         if(mStockAdapter == null){
             mStockAdapter = new StockAdapter(mStocksHelper.getTransactions());
         }
-
+        mTransListViewModel = new TransListViewModel(getFragmentManager(), getContext());
 
         FragmentStockListBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_stock_list, container, false);
-        binding.setViewModel(new TransListViewModel(getFragmentManager()));
+        binding.setViewModel(mTransListViewModel);
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         binding.recyclerView.setAdapter(mStockAdapter);
-        //mStocksHelper.fetchStocks(mStockAdapter);
-        refreshStocks(mStockAdapter);
 
         return binding.getRoot();
 
     }
 
-    public void refreshStocks(StockAdapter adapter){
-        //mTrans = mStocksHelper.getTrans();
-        adapter.mTransList.clear();
-        mStocksHelper.fetchStocks(adapter);
+    @Override
+    public void onResume() {
+        super.onResume();
+        refreshStocks(mTransListViewModel);
+    }
+
+    public void refreshStocks(TransListViewModel viewModel){
+        mStockAdapter.mTransList.clear();
+        viewModel.fetchStocks(mStockAdapter);
     }
 
 
@@ -78,7 +82,7 @@ public class TransListFragment extends Fragment {
         public void bind(Transaction trans, Stock stock){
             mBinding.getViewModel().setTrans(trans);
             mBinding.getViewModel().setStock(stock);
-            //mBinding.executePendingBindings();
+            mBinding.executePendingBindings();
         }
 
         public void bind(Transaction trans){

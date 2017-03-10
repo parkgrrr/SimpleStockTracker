@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">Simple Stock Tracker</string>
     <string name="search_button">Search</string>
+    <string name="quantity">Quantity</string>
+    <string name="price">Price</string>
+    <string name="fees">Fees</string>
 </resources>

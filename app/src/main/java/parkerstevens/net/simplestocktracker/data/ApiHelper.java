@@ -21,12 +21,12 @@ import retrofit2.http.Query;
 
 public class ApiHelper {
 
-    private static final String BASE_URL = "http://dev.markitondemand.com/Api/v2/";
+    private static final String BASE_URL = "http://dev.markitondemand.com/MODApis/Api/v2/";
 
     public static MarkitOnDemandApiInterface setupRetrofit(){
         OkHttpClient client = setupLogging();
         Gson gson = new GsonBuilder()
-                .setLenient()
+                //.setLenient()
                 .create();
 
         Retrofit retrofit = new Retrofit.Builder()

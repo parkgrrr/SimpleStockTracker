@@ -4,23 +4,12 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import parkerstevens.net.simplestocktracker.model.Stock;
 import parkerstevens.net.simplestocktracker.model.Transaction;
-import parkerstevens.net.simplestocktracker.view.TransListFragment;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 import static parkerstevens.net.simplestocktracker.data.StockTrackerDbSchema.TransactionTable;
 
@@ -30,7 +19,6 @@ import static parkerstevens.net.simplestocktracker.data.StockTrackerDbSchema.Tra
 
 public class StocksHelper{
     private static final String TAG = "StocksHelper";
-    private static final String BASE_URL = "http://dev.markitondemand.com/Api/v2/";
     private static StocksHelper mStocksHelper;
     private Context mContext;
     private SQLiteDatabase mDatabase;
@@ -68,9 +56,6 @@ public class StocksHelper{
         new String[] {uuidString});
     }
 
-    //public MarkitOnDemandApiInterface getMarkitApi() {
-       // return mMarkitApi;
-    //}
 
     public List<Transaction> getTransactions() {
         List<Transaction> transactions = new ArrayList<>();
@@ -132,70 +117,4 @@ public class StocksHelper{
         return new TransactionCursorWrapper(cursor);
     }
 
-    public void fetchStocks(final TransListFragment.StockAdapter stockAdapter){
-        mMarkitApi = ApiHelper.setupRetrofit();
-        List<Transaction> quotes = getTransactions();
-
-        for (final Transaction trans:
-            quotes) {
-            Call<Stock> call = mMarkitApi.getQuote(trans.getSymbol());
-            call.enqueue(new Callback<Stock>() {
-                @Override
-                public void onResponse(Call<Stock> call, Response<Stock> response) {
-                    if(response.isSuccessful()){
-                        Stock stock = response.body();
-                        stockAdapter.addStockToList(stock, trans);
-                        Log.i(TAG, "onresponse exec for " + stock.getName());
-                    }
-
-                }
-
-                @Override
-                public void onFailure(Call<Stock> call, Throwable t) {
-                    Log.e(TAG, "Failed API call", t);
-
-                }
-            });
-
-        }
-
-    }
-
-    public void fetchStock(final TransListFragment.StockAdapter stockAdapter, final Transaction trans){
-
-        mMarkitApi = ApiHelper.setupRetrofit();
-
-        Call<Stock> call = mMarkitApi.getQuote(trans.getSymbol());
-        call.enqueue(new Callback<Stock>() {
-            @Override
-            public void onResponse(Call<Stock> call, Response<Stock> response) {
-                if(response.isSuccessful()){
-                    Stock stock = response.body();
-                    stockAdapter.addStockToList(stock, trans);
-                    Log.i(TAG, "onresponse exec for " + stock.getName());
-                }
-
-            }
-
-            @Override
-            public void onFailure(Call<Stock> call, Throwable t) {
-                Log.e(TAG, "Failed API call", t);
-
-            }
-        });
-
-    }
-
-    private void setupRetrofit(){
-        Gson gson = new GsonBuilder()
-                .setLenient()
-                .create();
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .build();
-
-        mMarkitApi = retrofit.create(ApiHelper.MarkitOnDemandApiInterface.class);
-    }
 }

@@ -15,7 +15,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import parkerstevens.net.simplestocktracker.R;
 import parkerstevens.net.simplestocktracker.databinding.DialogStockSearchBinding;
@@ -44,7 +43,7 @@ public class StockSearchDialogFragment extends AppCompatDialogFragment {
 
         DialogStockSearchBinding binding = DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.dialog_stock_search, null, false);
         binding.setViewModel(
-                new StockSearchDialogViewModel(getFragmentManager(), mLookupAdapter)
+                new StockSearchDialogViewModel(mLookupAdapter)
         );
         binding.searchDialogListView.setAdapter(mLookupAdapter);
         return new AlertDialog.Builder(getActivity())
@@ -56,7 +55,7 @@ public class StockSearchDialogFragment extends AppCompatDialogFragment {
     public class LookupAdapter extends ArrayAdapter<CompanyLookup> {
 
 
-        public LookupAdapter(@NonNull Context context, @LayoutRes int resource, @NonNull List<CompanyLookup> objects) {
+        public LookupAdapter(@NonNull Context context, @LayoutRes int resource, @NonNull ArrayList<CompanyLookup> objects) {
             super(context, resource, objects);
         }
 
