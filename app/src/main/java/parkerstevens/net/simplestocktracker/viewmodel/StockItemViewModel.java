@@ -56,7 +56,12 @@ public class StockItemViewModel extends BaseObservable {
     public String getSymbol(){return  mStock.getSymbol();}
 
     @Bindable
-    public String getLastPrice(){return mStock.getLastPrice() + "";}
+    public String getLastPrice(){
+        if (mStock.getLastPrice() == null){
+            return "unavailable";
+        }
+        return mStock.getLastPrice() + "";
+    }
 
     @Bindable
     public String getChangePercent(){return Math.floor(mStock.getChangePercent() * 100)/100 + "%";}

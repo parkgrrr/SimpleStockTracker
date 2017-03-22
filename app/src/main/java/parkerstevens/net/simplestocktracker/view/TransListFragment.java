@@ -1,12 +1,17 @@
 package parkerstevens.net.simplestocktracker.view;
 
+import android.content.res.Resources;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -14,12 +19,12 @@ import java.util.HashMap;
 import java.util.List;
 
 import parkerstevens.net.simplestocktracker.R;
-import parkerstevens.net.simplestocktracker.viewmodel.StockItemViewModel;
 import parkerstevens.net.simplestocktracker.data.StocksHelper;
 import parkerstevens.net.simplestocktracker.databinding.FragmentStockListBinding;
 import parkerstevens.net.simplestocktracker.databinding.ListItemStockBinding;
 import parkerstevens.net.simplestocktracker.model.Stock;
 import parkerstevens.net.simplestocktracker.model.Transaction;
+import parkerstevens.net.simplestocktracker.viewmodel.StockItemViewModel;
 import parkerstevens.net.simplestocktracker.viewmodel.TransListViewModel;
 
 /**
@@ -37,8 +42,27 @@ public class TransListFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
         mStocksHelper = StocksHelper.get(getActivity());
+        mTransListViewModel = new TransListViewModel(getFragmentManager(), getContext());
 
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.fragment_stock_list_menu, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.refresh_button:
+                refreshStocks(mTransListViewModel);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Nullable
@@ -47,12 +71,17 @@ public class TransListFragment extends Fragment {
         if(mStockAdapter == null){
             mStockAdapter = new StockAdapter(mStocksHelper.getTransactions());
         }
-        mTransListViewModel = new TransListViewModel(getFragmentManager(), getContext());
+
+
+
 
         FragmentStockListBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_stock_list, container, false);
         binding.setViewModel(mTransListViewModel);
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         binding.recyclerView.setAdapter(mStockAdapter);
+
+        mTransListViewModel.createItemTouchHelper(mStockAdapter)
+                .attachToRecyclerView(binding.recyclerView);
 
         return binding.getRoot();
 
@@ -106,6 +135,7 @@ public class TransListFragment extends Fragment {
             LayoutInflater inflater = LayoutInflater.from(getActivity());
             ListItemStockBinding binding = DataBindingUtil.inflate(inflater, R.layout.list_item_stock, parent, false);
 
+
             return new StockHolder(binding);
         }
 
@@ -134,6 +164,31 @@ public class TransListFragment extends Fragment {
             mStockHash.put(stock.getSymbol(), stock);
             mTransList.add(trans);
             this.notifyDataSetChanged();
+        }
+
+        public void onItemDismiss(int position) {
+            Transaction t = mTransList.get(position);
+            mTransList.remove(position);
+            notifyItemRemoved(position);
+            mStocksHelper.deleteTransaction(t.getId());
+            showDeleteSnackbar(t);
+        }
+
+        public void showDeleteSnackbar(final Transaction t){
+            Resources res = getResources();
+            String message = res.getString(R.string.delete_message, t.getSymbol());
+
+            Snackbar mySnackbar = Snackbar.make(getView().findViewById(R.id.coord_layout),
+                    message, Snackbar.LENGTH_LONG);
+            mySnackbar.setAction(R.string.undo, new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mStocksHelper.addTransaction(t);
+                    refreshStocks(mTransListViewModel);
+                }
+            });
+            mySnackbar.show();
+
         }
     }
 

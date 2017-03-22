@@ -7,6 +7,7 @@
             type="parkerstevens.net.simplestocktracker.viewmodel.TransListViewModel"/>
     </data>
     <android.support.design.widget.CoordinatorLayout
+        android:id="@+id/coord_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
     <android.support.v7.widget.RecyclerView

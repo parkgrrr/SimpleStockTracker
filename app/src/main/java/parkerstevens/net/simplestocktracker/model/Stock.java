@@ -10,6 +10,8 @@ import java.math.BigDecimal;
  */
 
 public class Stock {
+    @SerializedName("Status")
+    private String mStatus;
     @SerializedName("Name")
     private String mName;
     @SerializedName("Symbol")
@@ -36,6 +38,14 @@ public class Stock {
     private double mLow;
     @SerializedName("Open")
     private double mOpen;
+
+    public String getStatus() {
+        return mStatus;
+    }
+
+    public void setStatus(String status) {
+        mStatus = status;
+    }
 
     public String getName() {
         return mName;

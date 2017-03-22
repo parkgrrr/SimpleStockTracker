@@ -47,6 +47,14 @@ public class StocksHelper{
         mDatabase.insert(TransactionTable.NAME, null, values);
     }
 
+    public void deleteTransaction(UUID id) {
+        mDatabase.delete(
+                TransactionTable.NAME,
+                TransactionTable.Cols.UUID + " = ?",
+                new String[]{id.toString()}
+                );
+    }
+
     public void updateTransaction(Transaction t) {
         String uuidString = t.getId().toString();
         ContentValues values = getContentValues(t);
