@@ -78,10 +78,10 @@ public class TransListViewModel extends BaseObservable {
                         stockAdapter.addStockToList(stock, trans);
                         Log.i(TAG, "onresponse exec for " + stock.getName());
                     } else {
-                        Log.i(TAG,"Bad respose for "+ trans.getSymbol());
+                        Log.i(TAG,"Bad response for "+ trans.getSymbol());
 
                         Stock stock = new Stock();
-                        stock.setName("Quote Unavailable");
+                        stock.setName("unable to get quote");
                         stock.setSymbol(trans.getSymbol());
                         stockAdapter.addStockToList(stock, trans);
                     }

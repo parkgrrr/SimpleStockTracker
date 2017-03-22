@@ -1,11 +1,17 @@
 package parkerstevens.net.simplestocktracker.data;
 
+import android.os.SystemClock;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.io.IOException;
 import java.util.List;
 
+import okhttp3.Dispatcher;
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
+import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import parkerstevens.net.simplestocktracker.model.CompanyLookup;
 import parkerstevens.net.simplestocktracker.model.Stock;
@@ -48,6 +54,21 @@ public class ApiHelper {
     // See http://square.github.io/okhttp/3.x/logging-interceptor/ to see the options.
         httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         builder.networkInterceptors().add(httpLoggingInterceptor);
+
+        Dispatcher dispatcher = new Dispatcher();
+        dispatcher.setMaxRequests(1);
+        //dispatcher.setMaxRequestsPerHost(1);
+        //dispatcher.executorService().awaitTermination(1000, TimeUnit.MILLISECONDS);
+
+        Interceptor interceptor = new Interceptor() {
+            @Override
+            public Response intercept(Chain chain) throws IOException {
+                SystemClock.sleep(500);
+                return chain.proceed(chain.request());
+            }
+        };
+        builder.addNetworkInterceptor(interceptor);
+        builder.dispatcher(dispatcher);
         return builder.build();
     }
 

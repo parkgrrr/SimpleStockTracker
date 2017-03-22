@@ -60,6 +60,11 @@ public class StockSearchDialogViewModel extends BaseObservable {
                     if(lookup.size() > 0){
                         mLookupAdapter.addAll(lookup);
                     }
+                    else {
+                        CompanyLookup lookup0 = new CompanyLookup();
+                        lookup0.setName("No companies found");
+                        mLookupAdapter.add(lookup0);
+                    }
 
 
                     Log.i(TAG, "onresponse exec for " + input);
@@ -69,6 +74,10 @@ public class StockSearchDialogViewModel extends BaseObservable {
             @Override
             public void onFailure(Call<List<CompanyLookup>> call, Throwable t) {
                 Log.i(TAG, "no companies found");
+
+                CompanyLookup lookup = new CompanyLookup();
+                lookup.setName("No companies found or bad connection");
+                mLookupAdapter.add(lookup);
 
             }
         });

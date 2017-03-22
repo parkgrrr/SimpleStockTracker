@@ -33,20 +33,20 @@
 
             <TextView
                 android:id="@+id/last_price_text"
-                android:layout_width="wrap_content"
+                android:layout_width="50dp"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
                 android:layout_marginStart="36dp"
                 android:layout_marginTop="0dp"
                 android:text="@{viewModel.lastPrice}"
-                card_view:layout_constraintTop_toTopOf="parent"
-                tools:text="50.00"
                 card_view:layout_constraintLeft_toRightOf="@+id/stock_symbol_text"
-                android:layout_marginLeft="16dp"
-                tools:ignore="RtlHardcoded"/>
+                card_view:layout_constraintTop_toTopOf="parent"
+                tools:ignore="RtlHardcoded"
+                tools:text="50.00"/>
 
             <TextView
                 android:id="@+id/stock_symbol_text"
-                android:layout_width="wrap_content"
+                android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="44dp"
                 android:layout_marginStart="26dp"
@@ -54,10 +54,10 @@
                 android:text="@{viewModel.symbol}"
                 card_view:layout_constraintLeft_toLeftOf="parent"
                 card_view:layout_constraintTop_toTopOf="parent"
+                tools:ignore="RtlHardcoded"
                 tools:layout_constraintLeft_creator="1"
                 tools:layout_constraintTop_creator="1"
-                tools:text="MSFT"
-                tools:ignore="RtlHardcoded"/>
+                tools:text="MSFT"/>
 
             <TextView
                 android:id="@+id/company_name_text"
@@ -73,15 +73,15 @@
 
             <TextView
                 android:id="@+id/stock_percent"
-                android:layout_width="wrap_content"
+                android:layout_width="50dp"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="0dp"
                 android:text="@{viewModel.changePercent}"
                 android:textColor="@{viewModel.changePerInt >= 0 ? color.GREEN : color.RED }"
-                tools:text="15%"
                 card_view:layout_constraintLeft_toRightOf="@+id/last_price_text"
-                android:layout_marginLeft="41dp"
                 card_view:layout_constraintTop_toTopOf="parent"
-                android:layout_marginTop="0dp"/>
+                tools:text="15%"/>
 
             <TextView
                 android:id="@+id/change_dollars"
@@ -91,7 +91,7 @@
                 android:textColor="@{viewModel.changePerInt >= 0 ? color.GREEN : color.RED}"
                 tools:text="$2.00"
                 card_view:layout_constraintLeft_toRightOf="@+id/stock_percent"
-                android:layout_marginLeft="24dp"
+                android:layout_marginLeft="8dp"
                 card_view:layout_constraintTop_toTopOf="parent"
                 android:layout_marginTop="0dp"/>
 

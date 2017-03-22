@@ -1,4 +1,5 @@
 <layout
+    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <data>
@@ -22,8 +23,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|right"
             android:layout_margin="16dp"
-            android:tint="@android:color/white"
             android:onClick="@{()-> viewModel.fabOnClick()}"
+            android:tint="@android:color/white"
             app:srcCompat="@android:drawable/ic_input_add"/>
     </android.support.design.widget.CoordinatorLayout>
 

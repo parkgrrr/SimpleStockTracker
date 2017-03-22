@@ -38,6 +38,7 @@ public class TransactionDetailsFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //getActionBar
 
     }
 

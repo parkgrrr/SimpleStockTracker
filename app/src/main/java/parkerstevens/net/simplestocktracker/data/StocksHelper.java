@@ -120,7 +120,7 @@ public class StocksHelper{
                 whereArgs,
                 null, //groupby
                 null, //having
-                null //orderby
+                TransactionTable.Cols.SYMBOL //orderby
         );
         return new TransactionCursorWrapper(cursor);
     }
