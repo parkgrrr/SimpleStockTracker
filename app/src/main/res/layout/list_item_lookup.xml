@@ -12,7 +12,7 @@
 <FrameLayout
              android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="50dp"
+              android:layout_height="wrap_content"
              android:onClick="@{()->viewModel.onCompanyClick()}"
     >
     <android.support.constraint.ConstraintLayout
@@ -23,7 +23,7 @@
 
         <TextView
             android:id="@+id/lookup_company_name"
-            android:layout_width="250dp"
+            android:layout_width="240dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:layout_marginLeft="8dp"
@@ -36,37 +36,37 @@
             app:layout_constraintRight_toLeftOf="@+id/company_exchange_text"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.529"
-            tools:text="Ding Dong Holding Company"/>
+            tools:text="very long @android:string/dialog_a Dong Holding Company"/>
 
         <TextView
             android:id="@+id/lookup_symbol"
-            android:text="@{viewModel.symbol}"
-            android:layout_width="wrap_content"
+            android:layout_width="80dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:layout_marginTop="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="MSFT"
-            app:layout_constraintVertical_bias="0.529"
             android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:text="@{viewModel.symbol}"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.529"
+            tools:text="MSFT hi test"
             />
 
         <TextView
             android:id="@+id/company_exchange_text"
-            android:text="@{viewModel.exchange}"
-            android:layout_width="wrap_content"
+            android:layout_width="80dp"
             android:layout_height="wrap_content"
-            tools:text="Nasdaq"
+            android:layout_marginBottom="8dp"
             android:layout_marginRight="8dp"
+            android:layout_marginTop="8dp"
+            android:text="@{viewModel.exchange}"
+            android:textAlignment="textEnd"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginBottom="8dp"
             app:layout_constraintVertical_bias="0.529"
-            />
+            tools:text="Nasdaq long index go for it"/>
 
     </android.support.constraint.ConstraintLayout>
 

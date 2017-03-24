@@ -3,13 +3,19 @@ package parkerstevens.net.simplestocktracker.viewmodel;
 import android.content.Context;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 
+import parkerstevens.net.simplestocktracker.R;
 import parkerstevens.net.simplestocktracker.data.StocksHelper;
 import parkerstevens.net.simplestocktracker.model.Stock;
 import parkerstevens.net.simplestocktracker.model.Transaction;
+import parkerstevens.net.simplestocktracker.view.TransactionDetailsFragment;
 
 /**
  * Created by pstev on 3/3/2017.
@@ -19,9 +25,11 @@ public class StockItemViewModel extends BaseObservable {
     private StocksHelper mStocksHelper;
     private Stock mStock;
     private Transaction mTrans;
+    private FragmentManager mFragmentManager;
 
     public StockItemViewModel(Context context) {
         mStocksHelper = StocksHelper.get(context);
+        mFragmentManager = ((FragmentActivity) context).getSupportFragmentManager();
     }
 
     public void setStock(Stock stock){
@@ -47,6 +55,20 @@ public class StockItemViewModel extends BaseObservable {
                         (price.multiply(quantity))
                 );
 
+
+    }
+
+    public void onClickTransItem(){
+
+        Fragment transDetail = TransactionDetailsFragment.newInstance(mTrans.getSymbol(), mTrans.getId());
+
+        FragmentTransaction fragTransaction = mFragmentManager.beginTransaction();
+// Replace whatever is in the fragment_container view with this fragment,
+// and add the transaction to the back stack so the user can navigate back
+        fragTransaction.replace(R.id.fragment_container, transDetail, "TransactionDetail");
+        fragTransaction.addToBackStack("stockList");
+// Commit the transaction
+        fragTransaction.commit();
 
     }
 

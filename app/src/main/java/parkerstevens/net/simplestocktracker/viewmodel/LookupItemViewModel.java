@@ -8,6 +8,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 
+import java.util.UUID;
+
 import parkerstevens.net.simplestocktracker.R;
 import parkerstevens.net.simplestocktracker.model.CompanyLookup;
 import parkerstevens.net.simplestocktracker.view.TransactionDetailsFragment;
@@ -69,7 +71,7 @@ public class LookupItemViewModel extends BaseObservable {
         if(mSymbol == null){
             return;
         }
-        Fragment transDetail = TransactionDetailsFragment.newInstance(mSymbol);
+        Fragment transDetail = TransactionDetailsFragment.newInstance(mSymbol, UUID.randomUUID());
 
         FragmentTransaction fragTransaction = mFragmentManager.beginTransaction();
 // Replace whatever is in the fragment_container view with this fragment,

@@ -24,10 +24,10 @@ public class TransactionDetailsFragment extends Fragment {
     private static final String ARG_ID = "transactionId";
     private TransactionDetailViewModel mViewModel;
 
-    public static TransactionDetailsFragment newInstance(String symbol){
+    public static TransactionDetailsFragment newInstance(String symbol, UUID uuid){
         Bundle args = new Bundle();
         args.putString(ARG_SYMBOL, symbol);
-        args.putSerializable(ARG_ID, UUID.randomUUID());
+        args.putSerializable(ARG_ID, uuid);
         TransactionDetailsFragment fragment = new TransactionDetailsFragment();
         fragment.setArguments(args);
 
@@ -44,7 +44,7 @@ public class TransactionDetailsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         //return super.onCreateView(inflater, container, savedInstanceState);
-        mViewModel = new TransactionDetailViewModel(getArguments().getString(ARG_SYMBOL), (UUID)getArguments().getSerializable(ARG_ID));
+        mViewModel = new TransactionDetailViewModel(getArguments().getString(ARG_SYMBOL), (UUID)getArguments().getSerializable(ARG_ID), getContext());
         FragmentTransactionDetailBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_transaction_detail, container, false);
         binding.setViewModel(mViewModel);
         return binding.getRoot();

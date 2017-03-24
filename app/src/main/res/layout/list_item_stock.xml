@@ -18,7 +18,9 @@
         app:cardBackgroundColor="@color/cardview_light_background"
         app:cardCornerRadius="@dimen/cardview_default_radius"
         app:cardElevation="@dimen/cardview_default_elevation"
-        app:cardUseCompatPadding="true">
+        app:cardUseCompatPadding="true"
+        android:onClick="@{()-> viewModel.onClickTransItem()}"
+        >
 
         <android.support.constraint.ConstraintLayout
             xmlns:card_view="http://schemas.android.com/apk/res-auto"
