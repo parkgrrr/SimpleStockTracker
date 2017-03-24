@@ -11,7 +11,7 @@ import java.util.List;
 import parkerstevens.net.simplestocktracker.BR;
 import parkerstevens.net.simplestocktracker.data.ApiHelper;
 import parkerstevens.net.simplestocktracker.model.CompanyLookup;
-import parkerstevens.net.simplestocktracker.view.StockSearchDialogFragment;
+import parkerstevens.net.simplestocktracker.view.LookupDialogFragment;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -20,12 +20,13 @@ import retrofit2.Response;
  * Created by pstev on 3/7/2017.
  */
 
-public class StockSearchDialogViewModel extends BaseObservable {
+public class LookupDialogViewModel extends BaseObservable {
     private final String TAG = "StockSearchViewModel";
     private String mSearchInput;
     private ArrayAdapter mLookupAdapter;
+    private Boolean isLoading = false;
 
-    public StockSearchDialogViewModel(StockSearchDialogFragment.LookupAdapter lookupAdapter) {
+    public LookupDialogViewModel(LookupDialogFragment.LookupAdapter lookupAdapter) {
         mLookupAdapter = lookupAdapter;
     }
 
@@ -39,8 +40,19 @@ public class StockSearchDialogViewModel extends BaseObservable {
         notifyPropertyChanged(BR.searchInput);
     }
 
+    @Bindable
+    public Boolean getLoading() {
+        return isLoading;
+    }
+
+    public void setLoading(Boolean loading) {
+        isLoading = loading;
+        notifyPropertyChanged(BR.loading);
+    }
+
     public void searchOnClick(){
         //StocksHelper.get(get).addTransaction();
+        setLoading(true);
         fetchLookup(mSearchInput);
         Log.v(TAG, "Search clicked");
 
@@ -53,6 +65,7 @@ public class StockSearchDialogViewModel extends BaseObservable {
         call.enqueue(new Callback<List<CompanyLookup>>() {
             @Override
             public void onResponse(Call<List<CompanyLookup>> call, Response<List<CompanyLookup>> response) {
+                setLoading(false);
                 if(response.isSuccessful()){
                     List<CompanyLookup> lookup = response.body();
                    // stockAdapter.addStockToList(stock, trans);
@@ -73,6 +86,7 @@ public class StockSearchDialogViewModel extends BaseObservable {
 
             @Override
             public void onFailure(Call<List<CompanyLookup>> call, Throwable t) {
+                setLoading(false);
                 Log.i(TAG, "no companies found");
 
                 CompanyLookup lookup = new CompanyLookup();

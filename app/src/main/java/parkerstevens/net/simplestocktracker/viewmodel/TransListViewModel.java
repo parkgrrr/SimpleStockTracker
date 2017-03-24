@@ -3,6 +3,7 @@ package parkerstevens.net.simplestocktracker.viewmodel;
 
 import android.content.Context;
 import android.databinding.BaseObservable;
+import android.databinding.Bindable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,11 +13,12 @@ import android.util.Log;
 import java.util.Calendar;
 import java.util.List;
 
+import parkerstevens.net.simplestocktracker.BR;
 import parkerstevens.net.simplestocktracker.data.ApiHelper;
 import parkerstevens.net.simplestocktracker.data.StocksHelper;
 import parkerstevens.net.simplestocktracker.model.Stock;
 import parkerstevens.net.simplestocktracker.model.Transaction;
-import parkerstevens.net.simplestocktracker.view.StockSearchDialogFragment;
+import parkerstevens.net.simplestocktracker.view.LookupDialogFragment;
 import parkerstevens.net.simplestocktracker.view.TransListFragment;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -30,10 +32,21 @@ public class TransListViewModel extends BaseObservable {
     private final String TAG = "TransListViewModel";
     private FragmentManager mFragmentManager;
     private Context mContext;
+    private Boolean isListLoading;
 
     public TransListViewModel(FragmentManager fragmentManager, Context context) {
         mFragmentManager = fragmentManager;
         mContext = context;
+    }
+
+    @Bindable
+    public Boolean getListLoading() {
+        return isListLoading;
+    }
+
+    public void setListLoading(Boolean listLoading) {
+        isListLoading = listLoading;
+        notifyPropertyChanged(BR.listLoading);
     }
 
     public ItemTouchHelper createItemTouchHelper(final TransListFragment.StockAdapter stockAdapter){
@@ -53,8 +66,7 @@ public class TransListViewModel extends BaseObservable {
 
 
     public void fabOnClick(){
-       // FragmentManager fm = new F
-        DialogFragment df = new StockSearchDialogFragment();
+        DialogFragment df = new LookupDialogFragment();
         df.show(mFragmentManager,"dialog_search");
         Log.v(TAG, "FAB clicked");
     }
@@ -74,6 +86,7 @@ public class TransListViewModel extends BaseObservable {
 
         List<Transaction> transactions = stocksHelper.getTransactions();
         List<Stock> quotes = stocksHelper.getStockQuotes();
+
         Calendar rightNow = Calendar.getInstance();
 
         for ( final Transaction trans:
@@ -81,6 +94,7 @@ public class TransListViewModel extends BaseObservable {
 
             //resets check at beginning of each transaction iteration
             Boolean isQuoteInDb = false;
+            setListLoading(true);
 
             for (Stock stock:
                     quotes) {
@@ -93,6 +107,7 @@ public class TransListViewModel extends BaseObservable {
                     stockAdapter.addStockToList(stock, trans);
                     Log.i(TAG, stock.getSymbol() + " was found and recent in the db. Item created.");
                     isQuoteInDb = true;
+                    setListLoading(false);
                     break;
                 }
                 else if(trans.getSymbol().equals(stock.getSymbol())){
@@ -104,7 +119,6 @@ public class TransListViewModel extends BaseObservable {
             }
 
             if(!isQuoteInDb){
-
                 Call<Stock> call = markitApi.getQuote(trans.getSymbol());
                 call.enqueue(new Callback<Stock>() {
                     @Override
@@ -124,6 +138,7 @@ public class TransListViewModel extends BaseObservable {
                             stock.setSymbol(trans.getSymbol());
                             stockAdapter.addStockToList(stock, trans);
                         }
+                        setListLoading(false);
                     }
 
                     @Override
@@ -133,6 +148,7 @@ public class TransListViewModel extends BaseObservable {
                         stock.setName("Failed to get quote");
                         stock.setSymbol(trans.getSymbol());
                         stockAdapter.addStockToList(stock, trans);
+                        setListLoading(false);
                     }
                 });
 

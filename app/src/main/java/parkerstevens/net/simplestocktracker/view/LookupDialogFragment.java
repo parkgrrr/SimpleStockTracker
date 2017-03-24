@@ -21,13 +21,13 @@ import parkerstevens.net.simplestocktracker.databinding.DialogStockSearchBinding
 import parkerstevens.net.simplestocktracker.databinding.ListItemLookupBinding;
 import parkerstevens.net.simplestocktracker.model.CompanyLookup;
 import parkerstevens.net.simplestocktracker.viewmodel.LookupItemViewModel;
-import parkerstevens.net.simplestocktracker.viewmodel.StockSearchDialogViewModel;
+import parkerstevens.net.simplestocktracker.viewmodel.LookupDialogViewModel;
 
 /**
  * Created by pstev on 3/7/2017.
  */
 
-public class StockSearchDialogFragment extends AppCompatDialogFragment {
+public class LookupDialogFragment extends AppCompatDialogFragment {
     ArrayList<CompanyLookup> mLookups = new ArrayList<>();
     LookupAdapter mLookupAdapter;
 
@@ -43,7 +43,7 @@ public class StockSearchDialogFragment extends AppCompatDialogFragment {
 
         DialogStockSearchBinding binding = DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.dialog_stock_search, null, false);
         binding.setViewModel(
-                new StockSearchDialogViewModel(mLookupAdapter)
+                new LookupDialogViewModel(mLookupAdapter)
         );
         binding.searchDialogListView.setAdapter(mLookupAdapter);
         return new AlertDialog.Builder(getActivity())
