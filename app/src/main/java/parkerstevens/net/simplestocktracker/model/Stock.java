@@ -4,6 +4,8 @@ package parkerstevens.net.simplestocktracker.model;
 import com.google.gson.annotations.SerializedName;
 
 import java.math.BigDecimal;
+import java.util.Calendar;
+import java.util.Locale;
 
 /**
  * Created by pstev on 3/3/2017.
@@ -19,7 +21,7 @@ public class Stock {
     @SerializedName("LastPrice")
     private BigDecimal mLastPrice;
     @SerializedName("Change")
-    private double mChange;
+    private BigDecimal mChange;
     @SerializedName("ChangePercent")
     private double mChangePercent;
     @SerializedName("TimeStamp")
@@ -33,11 +35,20 @@ public class Stock {
     @SerializedName("ChangePercentYTD")
     private double mChangePercentYTD;
     @SerializedName("High")
-    private double mHigh;
+    private BigDecimal mHigh;
     @SerializedName("Low")
-    private double mLow;
+    private BigDecimal mLow;
     @SerializedName("Open")
-    private double mOpen;
+    private BigDecimal mOpen;
+    private Calendar mCreateTime;
+
+    public Stock() {
+        mCreateTime = Calendar.getInstance(Locale.US);
+    }
+
+    public Stock(Calendar createTime) {
+        mCreateTime = createTime;
+    }
 
     public String getStatus() {
         return mStatus;
@@ -71,11 +82,11 @@ public class Stock {
         mLastPrice = lastPrice;
     }
 
-    public double getChange() {
+    public BigDecimal getChange() {
         return mChange;
     }
 
-    public void setChange(double change) {
+    public void setChange(BigDecimal change) {
         mChange = change;
     }
 
@@ -127,27 +138,35 @@ public class Stock {
         mChangePercentYTD = changePercentYTD;
     }
 
-    public double getHigh() {
+    public BigDecimal getHigh() {
         return mHigh;
     }
 
-    public void setHigh(double high) {
+    public void setHigh(BigDecimal high) {
         mHigh = high;
     }
 
-    public double getLow() {
+    public BigDecimal getLow() {
         return mLow;
     }
 
-    public void setLow(double low) {
+    public void setLow(BigDecimal low) {
         mLow = low;
     }
 
-    public double getOpen() {
+    public BigDecimal getOpen() {
         return mOpen;
     }
 
-    public void setOpen(double open) {
+    public void setOpen(BigDecimal open) {
         mOpen = open;
+    }
+
+    public void setCreateTime(Calendar createTime) {
+        mCreateTime = createTime;
+    }
+
+    public Calendar getCreateTime() {
+        return mCreateTime;
     }
 }

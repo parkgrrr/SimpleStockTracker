@@ -15,6 +15,7 @@ import parkerstevens.net.simplestocktracker.model.Transaction;
  */
 
 public class TransactionDetailViewModel extends BaseObservable {
+    private String mName;
     private String mSymbol;
     private String mQuantity;
     private String mPrice;
@@ -41,9 +42,12 @@ public class TransactionDetailViewModel extends BaseObservable {
     }
 
     public void setQuantity(String quantity) {
-        mQuantity = quantity;
-        mTransaction.setQuantity(Integer.parseInt(quantity));
-        notifyPropertyChanged(BR.quantity);
+        if(!quantity.isEmpty()){
+            mQuantity = quantity;
+            mTransaction.setQuantity(Integer.parseInt(quantity));
+            notifyPropertyChanged(BR.quantity);
+        }
+
     }
 
     @Bindable
@@ -52,9 +56,12 @@ public class TransactionDetailViewModel extends BaseObservable {
     }
 
     public void setPrice(String price) {
-        mPrice = price;
-        mTransaction.setPrice(new BigDecimal(price));
-        notifyPropertyChanged(BR.price);
+        if(!price.isEmpty()){
+            mPrice = price;
+            mTransaction.setPrice(new BigDecimal(price));
+            notifyPropertyChanged(BR.price);
+        }
+
     }
 
     @Bindable
@@ -63,16 +70,18 @@ public class TransactionDetailViewModel extends BaseObservable {
     }
 
     public void setFees(String fees) {
-        mFees = fees;
-        mTransaction.setFees(new BigDecimal(fees));
-        notifyPropertyChanged(BR.fees);
+        if (!fees.isEmpty()) {
+            mFees = fees;
+            mTransaction.setFees(new BigDecimal(fees));
+            notifyPropertyChanged(BR.fees);
+        }
     }
 
     public Transaction getTransaction() {
         return mTransaction;
     }
 
-    public void addTranscation(StocksHelper stocksHelper){
+    public void addTransaction(StocksHelper stocksHelper){
         stocksHelper.addTransaction(mTransaction);
     }
 }

@@ -13,7 +13,6 @@ import java.util.UUID;
 import parkerstevens.net.simplestocktracker.R;
 import parkerstevens.net.simplestocktracker.data.StocksHelper;
 import parkerstevens.net.simplestocktracker.databinding.FragmentTransactionDetailBinding;
-import parkerstevens.net.simplestocktracker.model.CompanyLookup;
 import parkerstevens.net.simplestocktracker.viewmodel.TransactionDetailViewModel;
 
 /**
@@ -25,9 +24,9 @@ public class TransactionDetailsFragment extends Fragment {
     private static final String ARG_ID = "transactionId";
     private TransactionDetailViewModel mViewModel;
 
-    public static TransactionDetailsFragment newInstance(CompanyLookup lookup){
+    public static TransactionDetailsFragment newInstance(String symbol){
         Bundle args = new Bundle();
-        args.putString(ARG_SYMBOL, lookup.getSymbol());
+        args.putString(ARG_SYMBOL, symbol);
         args.putSerializable(ARG_ID, UUID.randomUUID());
         TransactionDetailsFragment fragment = new TransactionDetailsFragment();
         fragment.setArguments(args);
@@ -38,7 +37,6 @@ public class TransactionDetailsFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //getActionBar
 
     }
 
@@ -55,7 +53,7 @@ public class TransactionDetailsFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        mViewModel.addTranscation(StocksHelper.get(getContext()));
+        mViewModel.addTransaction(StocksHelper.get(getContext()));
 
     }
 }

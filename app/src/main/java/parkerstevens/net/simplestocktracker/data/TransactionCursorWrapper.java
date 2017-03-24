@@ -23,8 +23,8 @@ public class TransactionCursorWrapper extends CursorWrapper {
         String uuidString = getString(getColumnIndex(TransactionTable.Cols.UUID));
         String symbol = getString(getColumnIndex(TransactionTable.Cols.SYMBOL));
         int quantity = getInt(getColumnIndex(TransactionTable.Cols.QUANTITY));
-        double price = getDouble(getColumnIndex(TransactionTable.Cols.PRICE));
-        double fees = getDouble(getColumnIndex(TransactionTable.Cols.FEES));
+        String price = getString(getColumnIndex(TransactionTable.Cols.PRICE));
+        String fees = getString(getColumnIndex(TransactionTable.Cols.FEES));
 
         Transaction trans = new Transaction(UUID.fromString(uuidString));
         trans.setSymbol(symbol);

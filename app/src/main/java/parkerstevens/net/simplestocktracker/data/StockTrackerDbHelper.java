@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import parkerstevens.net.simplestocktracker.data.StockTrackerDbSchema.StockQuoteTable;
 import parkerstevens.net.simplestocktracker.data.StockTrackerDbSchema.TransactionTable;
 
 /**
@@ -30,10 +31,34 @@ public class StockTrackerDbHelper extends SQLiteOpenHelper {
                 ")"
         );
 
+        db.execSQL("create table " + StockQuoteTable.NAME + "(" +
+                " _id integer primary key autoincrement, " +
+                StockQuoteTable.Cols.STATUS + ", " +
+                StockQuoteTable.Cols.NAME + ", " +
+                StockQuoteTable.Cols.SYMBOL + ", " +
+                StockQuoteTable.Cols.LASTPRICE + ", " +
+                StockQuoteTable.Cols.CHANGE + ", " +
+                StockQuoteTable.Cols.CHANGEPERCENT + ", " +
+                StockQuoteTable.Cols.TIMESTAMP + ", " +
+                StockQuoteTable.Cols.MARKETCAP + ", " +
+                StockQuoteTable.Cols.VOLUME + ", " +
+                StockQuoteTable.Cols.CHANGEYTD + ", " +
+                StockQuoteTable.Cols.CHANGEPERCENTYTD + ", " +
+                StockQuoteTable.Cols.HIGH + ", " +
+                StockQuoteTable.Cols.LOW + ", " +
+                StockQuoteTable.Cols.OPEN + ", " +
+                StockQuoteTable.Cols.CREATETIME +
+                ")"
+        );
+
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+
+        db.execSQL("DROP TABLE " + StockQuoteTable.NAME);
+        db.execSQL("DROP TABLE " + TransactionTable.NAME);
+        onCreate(db);
 
     }
 }

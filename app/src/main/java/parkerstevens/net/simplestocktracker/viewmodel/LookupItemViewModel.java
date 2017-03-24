@@ -66,7 +66,10 @@ public class LookupItemViewModel extends BaseObservable {
     }
 
     public void onCompanyClick() {
-        Fragment transDetail = TransactionDetailsFragment.newInstance(mLookup);
+        if(mSymbol == null){
+            return;
+        }
+        Fragment transDetail = TransactionDetailsFragment.newInstance(mSymbol);
 
         FragmentTransaction fragTransaction = mFragmentManager.beginTransaction();
 // Replace whatever is in the fragment_container view with this fragment,

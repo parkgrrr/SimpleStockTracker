@@ -5,6 +5,7 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 
 import parkerstevens.net.simplestocktracker.data.StocksHelper;
 import parkerstevens.net.simplestocktracker.model.Stock;
@@ -60,7 +61,7 @@ public class StockItemViewModel extends BaseObservable {
         if (mStock.getLastPrice() == null){
             return "unavailable";
         }
-        return mStock.getLastPrice() + "";
+        return "$" + mStock.getLastPrice();
     }
 
     @Bindable
@@ -70,7 +71,13 @@ public class StockItemViewModel extends BaseObservable {
     public double getChangePerInt() {return mStock.getChangePercent();}
 
     @Bindable
-    public String getChangeDollars() {return "$"+ Math.floor(mStock.getChange() * 100)/100;}
+    public String getChangeDollars() {
+        if (mStock.getChange() == null){
+            return "$0.00";
+        }
+        DecimalFormat df = new DecimalFormat("###,###,###,##0.00");
+        return "$"+ df.format(mStock.getChange());
+    }
 
     @Bindable
     public String getPurchasePrice(){return mTrans.getPrice() + "";}

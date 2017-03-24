@@ -23,13 +23,14 @@
 
         <TextView
             android:id="@+id/lookup_company_name"
-            android:layout_width="wrap_content"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginTop="8dp"
             android:text="@{viewModel.companyName}"
+            android:textAlignment="center"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@+id/lookup_symbol"
             app:layout_constraintRight_toLeftOf="@+id/company_exchange_text"

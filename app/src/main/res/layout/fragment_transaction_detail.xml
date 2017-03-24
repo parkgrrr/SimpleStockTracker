@@ -48,7 +48,8 @@
             android:text="@={viewModel.quantity}"
             app:layout_constraintBottom_toTopOf="@+id/price_text_edit"
             app:layout_constraintLeft_toLeftOf="parent"
-            tools:text="100"/>
+            tools:text="100"
+            />
 
         <EditText
             android:id="@+id/price_text_edit"
@@ -57,7 +58,7 @@
             android:layout_marginBottom="32dp"
             android:layout_marginLeft="48dp"
             android:ems="10"
-            android:inputType="number"
+            android:inputType="numberDecimal"
             android:text="@={viewModel.price}"
             app:layout_constraintBottom_toTopOf="@+id/fees_text_edit"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -67,10 +68,10 @@
             android:id="@+id/fees_text_edit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="65dp"
+            android:layout_marginBottom="32dp"
             android:layout_marginLeft="48dp"
             android:ems="10"
-            android:inputType="number"
+            android:inputType="numberDecimal"
             android:text="@={viewModel.fees}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -82,9 +83,13 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="0dp"
             android:layout_marginLeft="48dp"
+            android:labelFor="@id/quantity_text_edit"
             android:text="@string/quantity"
             app:layout_constraintBottom_toTopOf="@+id/quantity_text_edit"
-            app:layout_constraintLeft_toLeftOf="parent"/>
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/company_symbol_text_detail"
+            app:layout_constraintVertical_bias="1.0"/>
 
         <TextView
             android:id="@+id/price_label"
@@ -94,14 +99,16 @@
             android:layout_marginLeft="48dp"
             android:text="@string/price"
             app:layout_constraintBottom_toTopOf="@+id/price_text_edit"
-            app:layout_constraintLeft_toLeftOf="parent"/>
+            app:layout_constraintLeft_toLeftOf="parent"
+            tools:labelFor="@+id/price_text_edit"/>
 
         <TextView
-            android:id="@+id/fees_lable"
+            android:id="@+id/fees_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="0dp"
             android:layout_marginLeft="48dp"
+            android:labelFor="@id/fees_text_edit"
             android:text="@string/fees"
             app:layout_constraintBottom_toTopOf="@+id/fees_text_edit"
             app:layout_constraintLeft_toLeftOf="parent"/>

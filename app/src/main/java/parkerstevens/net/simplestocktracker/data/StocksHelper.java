@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import parkerstevens.net.simplestocktracker.data.StockTrackerDbSchema.StockQuoteTable;
+import parkerstevens.net.simplestocktracker.model.Stock;
 import parkerstevens.net.simplestocktracker.model.Transaction;
 
 import static parkerstevens.net.simplestocktracker.data.StockTrackerDbSchema.TransactionTable;
@@ -22,9 +24,6 @@ public class StocksHelper{
     private static StocksHelper mStocksHelper;
     private Context mContext;
     private SQLiteDatabase mDatabase;
-    //private MarkitOnDemandApiInterface mMarkitApi;
-    private ApiHelper.MarkitOnDemandApiInterface mMarkitApi;
-    private List<Transaction> mTrans = new ArrayList<>();
 
 
     public static StocksHelper get(Context context){
@@ -41,8 +40,99 @@ public class StocksHelper{
         //setupRetrofit();
     }
 
+    public void addStockQuote(Stock stock) {
+        ContentValues values = getQuoteContentValues(stock);
+
+        mDatabase.insert(StockQuoteTable.NAME, null, values);
+    }
+
+    public void deleteStockQuote(String symbol) {
+        mDatabase.delete(
+                StockQuoteTable.NAME,
+                StockQuoteTable.Cols.SYMBOL + " = ?",
+                new String[]{symbol}
+        );
+    }
+
+    public void updateStockQuote(Stock stock) {
+        String symbol = stock.getSymbol();
+        ContentValues values = getQuoteContentValues(stock);
+
+        mDatabase.update(StockQuoteTable.NAME, values,
+                StockQuoteTable.Cols.SYMBOL + " = ?",
+                new String[] {symbol});
+    }
+
+    public static ContentValues getQuoteContentValues(Stock stock){
+        ContentValues values = new ContentValues();
+        values.put(StockQuoteTable.Cols.STATUS, stock.getStatus());
+        values.put(StockQuoteTable.Cols.NAME, stock.getName());
+        values.put(StockQuoteTable.Cols.SYMBOL, stock.getSymbol());
+        values.put(StockQuoteTable.Cols.LASTPRICE, stock.getLastPrice().toString());
+        values.put(StockQuoteTable.Cols.CHANGE, stock.getChange().toString());
+        values.put(StockQuoteTable.Cols.CHANGEPERCENT, stock.getChangePercent() + "");
+        values.put(StockQuoteTable.Cols.TIMESTAMP, stock.getTimeStamp());
+        values.put(StockQuoteTable.Cols.MARKETCAP, stock.getMarketCap().toString());
+        values.put(StockQuoteTable.Cols.VOLUME, stock.getVolume() + "");
+        values.put(StockQuoteTable.Cols.CHANGEYTD, stock.getChangeYTD().toString());
+        values.put(StockQuoteTable.Cols.CHANGEPERCENTYTD, stock.getChangePercentYTD() + "");
+        values.put(StockQuoteTable.Cols.HIGH, stock.getHigh().toString());
+        values.put(StockQuoteTable.Cols.LOW, stock.getLow().toString());
+        values.put(StockQuoteTable.Cols.OPEN, stock.getOpen().toString());
+        values.put(StockQuoteTable.Cols.CREATETIME, stock.getCreateTime().getTime().toString());
+
+        return values;
+    }
+    public List<Stock> getStockQuotes() {
+        List<Stock> stocks = new ArrayList<>();
+
+        StockQuoteCursorWrapper cursor = queryStockQuotes(null, null);
+
+        try {
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                stocks.add(cursor.getStockQuote());
+                cursor.moveToNext();
+            }
+        } finally {
+            cursor.close();
+        }
+        return stocks;
+    }
+
+    public Stock getStockQuote(String symbol) {
+        StockQuoteCursorWrapper cursor = queryStockQuotes(
+                StockQuoteTable.Cols.SYMBOL + " = ?",
+                new String[] {symbol}
+        );
+
+        try {
+            if (cursor.getCount() == 0) {
+                return null;
+            }
+
+            cursor.moveToFirst();
+            return cursor.getStockQuote();
+        }finally {
+            cursor.close();
+        }
+    }
+
+    private StockQuoteCursorWrapper queryStockQuotes(String whereClause, String[] whereArgs) {
+        Cursor cursor = mDatabase.query(
+                StockQuoteTable.NAME,
+                null, //colums - null selects all
+                whereClause,
+                whereArgs,
+                null, //groupby
+                null, //having
+                StockQuoteTable.Cols.SYMBOL //orderby
+        );
+        return new StockQuoteCursorWrapper(cursor);
+    }
+
     public void addTransaction(Transaction t) {
-        ContentValues values = getContentValues(t);
+        ContentValues values = getTransContentValues(t);
 
         mDatabase.insert(TransactionTable.NAME, null, values);
     }
@@ -57,7 +147,7 @@ public class StocksHelper{
 
     public void updateTransaction(Transaction t) {
         String uuidString = t.getId().toString();
-        ContentValues values = getContentValues(t);
+        ContentValues values = getTransContentValues(t);
 
         mDatabase.update(TransactionTable.NAME, values,
         TransactionTable.Cols.UUID + " = ?",
@@ -101,7 +191,7 @@ public class StocksHelper{
     }
 
 
-    public static ContentValues getContentValues(Transaction trans){
+    public static ContentValues getTransContentValues(Transaction trans){
         ContentValues values = new ContentValues();
         values.put(TransactionTable.Cols.UUID, trans.getId().toString());
         values.put(TransactionTable.Cols.SYMBOL, trans.getSymbol());
