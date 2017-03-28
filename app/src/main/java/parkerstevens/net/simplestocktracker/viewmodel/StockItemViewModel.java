@@ -43,9 +43,9 @@ public class StockItemViewModel extends BaseObservable {
 
     private BigDecimal calcProfits(){
 
-        BigDecimal purchasePrice = mTrans.getPrice();
+        BigDecimal purchasePrice = new BigDecimal(mTrans.getPrice());
         BigDecimal quantity = new BigDecimal(mTrans.getQuantity());
-        BigDecimal fees = mTrans.getFees();
+        BigDecimal fees = new BigDecimal(mTrans.getFees());
         BigDecimal price = mStock.getLastPrice();
 
         return ((purchasePrice

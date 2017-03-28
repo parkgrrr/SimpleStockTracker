@@ -3,7 +3,6 @@ package parkerstevens.net.simplestocktracker.data;
 import android.database.Cursor;
 import android.database.CursorWrapper;
 
-import java.math.BigDecimal;
 import java.util.UUID;
 
 import parkerstevens.net.simplestocktracker.model.Transaction;
@@ -29,8 +28,8 @@ public class TransactionCursorWrapper extends CursorWrapper {
         Transaction trans = new Transaction(UUID.fromString(uuidString));
         trans.setSymbol(symbol);
         trans.setQuantity(quantity);
-        trans.setPrice(new BigDecimal(price));
-        trans.setFees(new BigDecimal(fees));
+        trans.setPrice(price);
+        trans.setFees(fees);
 
         return trans;
     }

@@ -5,7 +5,6 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.util.Log;
 
-import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.UUID;
 
@@ -28,9 +27,6 @@ public class TransactionDetailViewModel extends BaseObservable {
     private Context mContext;
     private String mName;
     private String mSymbol;
-    private String mQuantity;
-    private String mPrice;
-    private String mFees;
     private Transaction mTransaction;
     private UUID mUUID;
     private Stock mStock;
@@ -44,9 +40,9 @@ public class TransactionDetailViewModel extends BaseObservable {
         {
             mTransaction = new Transaction(uuid);
             mTransaction.setSymbol(symbol);
-            mTransaction.setPrice(new BigDecimal(0));
-            mTransaction.setFees(new BigDecimal(0));
-            mTransaction.setQuantity(0);
+            mTransaction.setPrice("");
+            mTransaction.setFees("");
+           // mTransaction.setQuantity(0);
         }
         else {
             mTransaction = StocksHelper.get(mContext).getTransaction(mUUID);
@@ -63,42 +59,51 @@ public class TransactionDetailViewModel extends BaseObservable {
 
     @Bindable
     public String getQuantity() {
-        return mQuantity;
-    }
-
-    public void setQuantity(String quantity) {
-        if(!quantity.isEmpty()){
-            mQuantity = quantity;
-            mTransaction.setQuantity(Integer.parseInt(quantity));
-            notifyPropertyChanged(BR.quantity);
+        if(mTransaction.getQuantity() == 0){
+            return "";
+        }
+        else {
+            return mTransaction.getQuantity() + "";
         }
 
     }
 
+    public void setQuantity(String quantity) {
+        if(!quantity.isEmpty()){
+            mTransaction.setQuantity(Integer.parseInt(quantity));
+            notifyPropertyChanged(BR.quantity);
+        }
+        else {
+            mTransaction.setQuantity(0);
+        }
+    }
+
     @Bindable
     public String getPrice() {
-        return mPrice;
+        return mTransaction.getPrice();
     }
 
     public void setPrice(String price) {
         if(!price.isEmpty()){
-            mPrice = price;
-            mTransaction.setPrice(new BigDecimal(price));
+            mTransaction.setPrice(price);
             notifyPropertyChanged(BR.price);
+        } else {
+            mTransaction.setPrice("");
         }
 
     }
 
     @Bindable
     public String getFees() {
-        return mFees;
+        return mTransaction.getFees();
     }
 
     public void setFees(String fees) {
         if (!fees.isEmpty()) {
-            mFees = fees;
-            mTransaction.setFees(new BigDecimal(fees));
+            mTransaction.setFees(fees);
             notifyPropertyChanged(BR.fees);
+        } else {
+            mTransaction.setFees("");
         }
     }
 

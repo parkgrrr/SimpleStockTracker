@@ -3,6 +3,7 @@ package parkerstevens.net.simplestocktracker.data;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import parkerstevens.net.simplestocktracker.data.StockTrackerDbSchema.StockQuoteTable;
 import parkerstevens.net.simplestocktracker.data.StockTrackerDbSchema.TransactionTable;
@@ -12,7 +13,7 @@ import parkerstevens.net.simplestocktracker.data.StockTrackerDbSchema.Transactio
  */
 
 public class StockTrackerDbHelper extends SQLiteOpenHelper {
-    private static final int VERSION = 1;
+    private static final int VERSION = 2;
     private static final String DATABASE_NAME = "stockBase.db";
 
     public StockTrackerDbHelper(Context context) {
@@ -50,15 +51,16 @@ public class StockTrackerDbHelper extends SQLiteOpenHelper {
                 StockQuoteTable.Cols.CREATETIME +
                 ")"
         );
+        Log.i(DATABASE_NAME, StockQuoteTable.NAME + "is created");
 
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
-        db.execSQL("DROP TABLE " + StockQuoteTable.NAME);
-        db.execSQL("DROP TABLE " + TransactionTable.NAME);
-        onCreate(db);
+        //db.execSQL("DROP TABLE " + StockQuoteTable.NAME);
+        //db.execSQL("DROP TABLE " + TransactionTable.NAME);
+        //onCreate(db);
 
     }
 }
