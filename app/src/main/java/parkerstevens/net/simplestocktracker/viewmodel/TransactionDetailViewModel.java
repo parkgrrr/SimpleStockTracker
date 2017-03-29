@@ -286,6 +286,36 @@ public class TransactionDetailViewModel extends BaseObservable {
                 setName(quote.getName());
                 mStock = quote;
                 return;
+            } else {
+                Call<Stock> call = markitApi.getQuote(mSymbol);  //ToDo refactor this into a method later for DRY
+                call.enqueue(new Callback<Stock>() {
+                    @Override
+                    public void onResponse(Call<Stock> call, Response<Stock> response) {
+                        if(response.isSuccessful() && response.body().getStatus().equals("SUCCESS")){
+                            Stock stock = response.body();
+                            //populate view model
+                            setName(stock.getName());
+                            Log.i(TAG, "onresponse exec for " + stock.getName());
+                            //add fresh stock to the db
+                            stocksHelper.addStockQuote(stock);
+                            mStock = stock;
+                            notifyPropertyChanged(BR._all);
+                            Log.i(TAG, stock.getSymbol() + " has been added to the db");
+                        } else {
+                            Log.i(TAG,"Bad response for "+ mSymbol);
+
+                            Stock stock = new Stock();
+                            stock.setName("unable to get quote");
+                            setName("unable to get quote");
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Stock> call, Throwable t) {
+                        Log.e(TAG, "Failed API call", t);
+                        setName("Failed to get quote");
+                    }
+                });
             }
         }else{
             Call<Stock> call = markitApi.getQuote(mSymbol);
@@ -300,6 +330,7 @@ public class TransactionDetailViewModel extends BaseObservable {
                         //add fresh stock to the db
                         stocksHelper.addStockQuote(stock);
                         mStock = stock;
+                        notifyPropertyChanged(BR._all);
                         Log.i(TAG, stock.getSymbol() + " has been added to the db");
                     } else {
                         Log.i(TAG,"Bad response for "+ mSymbol);
