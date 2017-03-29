@@ -5,6 +5,7 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.util.Log;
 
+import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.UUID;
 
@@ -122,6 +123,52 @@ public class TransactionDetailViewModel extends BaseObservable {
         return mTransaction;
     }
 
+    public Stock getStock(){return mStock;}
+
+    public String getPercentChange(){
+        if(mStock != null){
+            String addChar = "+";
+            if(mStock.getChangePercent() < 0){
+                addChar = "-";
+            }
+            return "("+ addChar + Math.floor(mStock.getChangePercent() * 100)/100 + "%)";
+        }
+        return "";
+    }
+
+    public String getChange(){
+        if(mStock != null){
+            DecimalFormat df = new DecimalFormat("###,###,###,##0.00");
+            String addChar = "+";
+            if(mStock.getChange().intValue() < 0){
+                addChar = "-";
+            }
+            return addChar + df.format(mStock.getChange());
+        }
+        return "";
+    }
+
+    public double getChangeDoub(){
+        if(mStock != null){
+            return mStock.getChangePercent();
+        }
+
+        return 0;
+
+    }
+
+    public String getMarketCap(){
+        if(mStock != null){
+            DecimalFormat df = new DecimalFormat("###,###,###,###");
+            return df.format(mStock.getMarketCap());
+        }
+        return "";
+    }
+
+
+
+
+
     public void addTransaction(StocksHelper stocksHelper){
         if(stocksHelper.getTransaction(mUUID) == null){
             stocksHelper.addTransaction(mTransaction);
@@ -143,6 +190,7 @@ public class TransactionDetailViewModel extends BaseObservable {
             expireTime.add(Calendar.MINUTE, 1);
             if(rightNow.before(expireTime)) {
                 setName(quote.getName());
+                mStock = quote;
                 return;
             }
         }else{
@@ -157,6 +205,7 @@ public class TransactionDetailViewModel extends BaseObservable {
                         Log.i(TAG, "onresponse exec for " + stock.getName());
                         //add fresh stock to the db
                         stocksHelper.addStockQuote(stock);
+                        mStock = stock;
                         Log.i(TAG, stock.getSymbol() + " has been added to the db");
                     } else {
                         Log.i(TAG,"Bad response for "+ mSymbol);
