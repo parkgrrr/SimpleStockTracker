@@ -79,6 +79,7 @@ public class TransListViewModel extends BaseObservable {
 
 
 
+
     public void fetchStocks(final TransListFragment.StockAdapter stockAdapter){
 
         final StocksHelper stocksHelper = StocksHelper.get(mContext);
@@ -160,3 +161,7 @@ public class TransListViewModel extends BaseObservable {
         }
     }
 }
+
+//// TODO: 3/28/2017 display a snackbar when list is empty
+
+//// TODO: 3/28/2017 put fetch stocks loop on another thread, or pull the comparison algo into a new method

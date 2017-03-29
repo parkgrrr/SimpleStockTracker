@@ -45,6 +45,9 @@ public class Transaction {
     }
 
     public String getPrice() {
+        if(mPrice == null){
+            return "0";
+        }
         return mPrice;
     }
 

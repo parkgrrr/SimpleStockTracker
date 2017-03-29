@@ -4,7 +4,9 @@ import android.content.Context;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.util.Log;
+import android.widget.Toast;
 
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.UUID;
@@ -73,6 +75,7 @@ public class TransactionDetailViewModel extends BaseObservable {
         if(!quantity.isEmpty()){
             mTransaction.setQuantity(Integer.parseInt(quantity));
             notifyPropertyChanged(BR.quantity);
+            notifyPropertyChanged(BR.holdingsChangeDollars);
         }
         else {
             mTransaction.setQuantity(0);
@@ -88,6 +91,7 @@ public class TransactionDetailViewModel extends BaseObservable {
         if(!price.isEmpty()){
             mTransaction.setPrice(price);
             notifyPropertyChanged(BR.price);
+            notifyPropertyChanged(BR.holdingsChangeDollars);
         } else {
             mTransaction.setPrice("");
         }
@@ -103,6 +107,7 @@ public class TransactionDetailViewModel extends BaseObservable {
         if (!fees.isEmpty()) {
             mTransaction.setFees(fees);
             notifyPropertyChanged(BR.fees);
+            notifyPropertyChanged(BR.holdingsChangeDollars);
         } else {
             mTransaction.setFees("");
         }
@@ -129,9 +134,17 @@ public class TransactionDetailViewModel extends BaseObservable {
         if(mStock != null){
             String addChar = "+";
             if(mStock.getChangePercent() < 0){
-                addChar = "-";
+                addChar = "";
             }
             return "("+ addChar + Math.floor(mStock.getChangePercent() * 100)/100 + "%)";
+        }
+        return "";
+    }
+
+    public String getLastPrice(){
+        if(mStock!= null){
+            DecimalFormat df = new DecimalFormat("###,###,###,##0.00");
+            return "$" + df.format(mStock.getLastPrice());
         }
         return "";
     }
@@ -140,11 +153,12 @@ public class TransactionDetailViewModel extends BaseObservable {
         if(mStock != null){
             DecimalFormat df = new DecimalFormat("###,###,###,##0.00");
             String addChar = "+";
-            if(mStock.getChange().intValue() < 0){
-                addChar = "-";
+            if(mStock.getChange().doubleValue() < 0){
+                addChar = "";
             }
             return addChar + df.format(mStock.getChange());
         }
+        Toast.makeText(mContext, "Unable to get stock data", Toast.LENGTH_LONG).show();
         return "";
     }
 
@@ -161,6 +175,86 @@ public class TransactionDetailViewModel extends BaseObservable {
         if(mStock != null){
             DecimalFormat df = new DecimalFormat("###,###,###,###");
             return df.format(mStock.getMarketCap());
+        }
+        return "";
+    }
+
+    public String getVolume(){
+        if(mStock != null){
+            DecimalFormat df = new DecimalFormat("###,###,###,###");
+            return df.format(mStock.getVolume());
+        }
+        return "";
+    }
+
+    public String getChangeYtdDollars(){
+        if(mStock != null){
+            Double change = mStock.getLastPrice().subtract(mStock.getChangeYTD()).doubleValue();
+           change = Math.floor(change * 100)/100;
+            if(change >= 0){
+                return "+" + change;
+            }else {
+                return  "-" + change;
+            }
+
+        }
+        return "";
+    }
+
+    public String getChangeYtdPercent(){
+        if(mStock != null){
+            Double change = mStock.getChangePercentYTD();
+            change = Math.floor(change * 100)/100;
+            if(change >= 0){
+                return "(+" + change + "%)";
+            }
+            else {
+                return "(-" + change + "%)";
+            }
+        }
+        return "";
+    }
+
+  /*  @Bindable
+    public String getHoldingChangePercent(){
+        if(mStock != null){
+            Math.floor(mStoc)
+        }
+
+    }*/
+
+    @Bindable
+    public String getHoldingsChangeDollars(){
+        if(mStock != null && mTransaction.getPrice() != null){
+
+            BigDecimal purchasePrice = new BigDecimal(0);
+            if(!mTransaction.getPrice().isEmpty()){
+                purchasePrice = new BigDecimal(mTransaction.getPrice());
+            }
+            BigDecimal quantity = new BigDecimal(mTransaction.getQuantity());
+
+            BigDecimal fees = new BigDecimal(0);
+            if(!mTransaction.getFees().isEmpty()){
+                fees = new BigDecimal(mTransaction.getFees());
+            }
+
+            BigDecimal price = mStock.getLastPrice();
+
+            BigDecimal change = ((purchasePrice
+                    .multiply(quantity))
+                    .add(fees))
+                    .subtract(
+                            (price.multiply(quantity))
+                    );
+            double changeD = Math.floor(change.doubleValue() * 100)/100;
+            DecimalFormat df = new DecimalFormat("###,###,###,##0.00");
+            if(changeD < 0){
+                changeD *= -1;
+                return "+$" + df.format(changeD);
+            }else {
+
+                return "-$" + df.format(changeD);
+            }
         }
         return "";
     }
@@ -229,3 +323,5 @@ public class TransactionDetailViewModel extends BaseObservable {
 
     }
 }
+
+//// TODO: 3/28/2017 Add decimal format for current stock price, so it doesn't show 148.5 for currency
