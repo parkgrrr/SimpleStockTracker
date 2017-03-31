@@ -8,11 +8,29 @@
             name="viewModel"
             type="parkerstevens.net.simplestocktracker.viewmodel.TransListViewModel"/>
     </data>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="@style/Widget.MyApp.Toolbar.Solid"
+            app:title="@string/app_name">
+
+        </android.support.v7.widget.Toolbar>
+
     <android.support.design.widget.CoordinatorLayout
         android:id="@+id/coord_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    <android.support.v7.widget.RecyclerView
+
+
+        <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -32,10 +50,11 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|right"
             android:layout_margin="16dp"
+            android:background="?attr/selectableItemBackground"
             android:onClick="@{()-> viewModel.fabOnClick()}"
             android:tint="@android:color/white"
-            app:srcCompat="@android:drawable/ic_input_add"/>
+            app:srcCompat="@drawable/ic_add_black_24dp"/>
 
     </android.support.design.widget.CoordinatorLayout>
-
+    </LinearLayout>
 </layout>

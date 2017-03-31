@@ -44,7 +44,7 @@ public class TransactionDetailsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         //return super.onCreateView(inflater, container, savedInstanceState);
-        mViewModel = new TransactionDetailViewModel(getArguments().getString(ARG_SYMBOL), (UUID)getArguments().getSerializable(ARG_ID), getContext());
+        mViewModel = new TransactionDetailViewModel(getArguments().getString(ARG_SYMBOL), (UUID)getArguments().getSerializable(ARG_ID), getActivity());
         FragmentTransactionDetailBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_transaction_detail, container, false);
         binding.setViewModel(mViewModel);
         return binding.getRoot();

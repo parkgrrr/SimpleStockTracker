@@ -10,81 +10,112 @@
             name="color"
             type="android.graphics.Color"/>
     </data>
+
+
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar3"
+            android:layout_width="0dp"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            android:clickable="false"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="@style/NavTitle"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:onClick="@{()-> viewModel.onToolbarIconClick()}"
+                android:paddingRight="40dp"
+                android:tint="@color/white"
+                app:srcCompat="?attr/homeAsUpIndicator"/>
+
+            <TextView
+                style="@style/NavTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text='@{viewModel.symbol + " Detail"}'
+                android:textAlignment="viewStart"/>
+
+
+        </android.support.v7.widget.Toolbar>
 
         <TextView
             android:id="@+id/company_name_text_detail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
-            android:layout_marginTop="26dp"
+            android:layout_marginTop="8dp"
             android:text="@{viewModel.name}"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="Microsoft Corporation and sons"
-            android:layout_marginStart="0dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginLeft="0dp"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="@+id/company_symbol_text_detail"
-            app:layout_constraintHorizontal_bias="0.0"/>
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar3"
+            tools:text="Microsoft Corporation and sons"/>
 
         <TextView
             android:id="@+id/company_symbol_text_detail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="28dp"
             android:text="@{viewModel.symbol}"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            app:layout_constraintTop_toBottomOf="@+id/company_name_text_detail"
-            tools:text="MSFT"
-            app:layout_constraintRight_toLeftOf="@+id/last_price_detail"
-            android:layout_marginRight="0dp"
-            android:layout_marginLeft="8dp"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintHorizontal_chainStyle="spread"/>
+            app:layout_constraintRight_toLeftOf="@+id/last_price_detail"
+            app:layout_constraintTop_toBottomOf="@+id/company_name_text_detail"
+            tools:text="MSFT"/>
 
         <EditText
             android:id="@+id/quantity_text_edit"
             android:layout_width="70dp"
             android:layout_height="42dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
             android:ems="10"
             android:inputType="number"
             android:text="@={viewModel.quantity}"
-            tools:text="100"
-            app:layout_constraintLeft_toLeftOf="@+id/quantity_label"
-            android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/detail_open_label"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginBottom="8dp"/>
+            app:layout_constraintLeft_toLeftOf="@+id/quantity_label"
+            app:layout_constraintTop_toBottomOf="@+id/detail_open_label"
+            tools:text="100"/>
 
         <EditText
             android:id="@+id/price_text_edit"
             android:layout_width="70dp"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
             android:ems="10"
             android:inputType="numberDecimal"
             android:text="@={viewModel.price}"
-            tools:text="53.99"
-            app:layout_constraintLeft_toRightOf="@+id/quantity_text_edit"
-            android:layout_marginLeft="8dp"
             app:layout_constraintBottom_toBottomOf="@+id/quantity_text_edit"
-            android:layout_marginStart="8dp"/>
+            app:layout_constraintLeft_toRightOf="@+id/quantity_text_edit"
+            tools:text="53.99"/>
 
         <EditText
             android:id="@+id/fees_text_edit"
             android:layout_width="70dp"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
             android:ems="10"
             android:inputType="numberDecimal"
             android:text="@={viewModel.fees}"
-            tools:text="5.00"
-            app:layout_constraintLeft_toRightOf="@+id/price_text_edit"
-            android:layout_marginLeft="8dp"
             app:layout_constraintBottom_toBottomOf="@+id/price_text_edit"
-            android:layout_marginStart="8dp"/>
+            app:layout_constraintLeft_toRightOf="@+id/price_text_edit"
+            tools:text="5.00"/>
 
         <TextView
             android:id="@+id/quantity_label"
@@ -92,9 +123,8 @@
             android:layout_height="wrap_content"
             android:labelFor="@id/quantity_text_edit"
             android:text="@string/quantity"
+            android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/quantity_text_edit"
-            android:layout_marginBottom="0dp"
-            android:layout_marginLeft="0dp"
             app:layout_constraintLeft_toLeftOf="@+id/detail_open_label"/>
 
         <TextView
@@ -102,9 +132,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/price"
-            tools:labelFor="@+id/price_text_edit"
+            android:textStyle="bold"
             app:layout_constraintLeft_toLeftOf="@+id/price_text_edit"
             app:layout_constraintTop_toTopOf="@+id/quantity_label"
+            tools:labelFor="@+id/price_text_edit"
             />
 
         <TextView
@@ -113,6 +144,7 @@
             android:layout_height="wrap_content"
             android:labelFor="@id/fees_text_edit"
             android:text="@string/fees"
+            android:textStyle="bold"
             app:layout_constraintLeft_toLeftOf="@+id/fees_text_edit"
             app:layout_constraintTop_toTopOf="@+id/price_label"
             />
@@ -121,12 +153,12 @@
             android:id="@+id/market_cap_detail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{viewModel.marketCap}"
-            tools:text="$504,530,433,700"
-            app:layout_constraintLeft_toRightOf="@+id/detail_market_cap_label"
             android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            android:text="@{viewModel.marketCap}"
+            app:layout_constraintLeft_toRightOf="@+id/detail_market_cap_label"
             app:layout_constraintTop_toTopOf="@+id/detail_market_cap_label"
-            android:layout_marginStart="16dp"/>
+            tools:text="$504,530,433,700"/>
 
         <TextView
             android:id="@+id/last_price_detail"
@@ -134,108 +166,110 @@
             android:layout_height="wrap_content"
             android:text="@{viewModel.lastPrice}"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            tools:text="$53.65"
-            app:layout_constraintTop_toTopOf="@+id/company_symbol_text_detail"
             app:layout_constraintLeft_toRightOf="@+id/company_symbol_text_detail"
-            app:layout_constraintRight_toLeftOf="@+id/detail_change"/>
+            app:layout_constraintRight_toLeftOf="@+id/detail_change"
+            app:layout_constraintTop_toTopOf="@+id/company_symbol_text_detail"
+            tools:text="$53.65"/>
 
         <TextView
             android:id="@+id/detail_change"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{viewModel.change}"
-            android:textColor="@{viewModel.changeDoub >= 0 ? color.GREEN : color.RED}"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            tools:text="+0.19"
-            app:layout_constraintRight_toLeftOf="@+id/detail_change_percent"
-            app:layout_constraintLeft_toRightOf="@+id/last_price_detail"
-            app:layout_constraintHorizontal_bias="0.1"
+            android:textColor="@{viewModel.changeDoub >= 0 ? color.GREEN : color.RED}"
             app:layout_constraintBottom_toBottomOf="@+id/last_price_detail"
-            android:layout_marginBottom="0dp"/>
+            app:layout_constraintHorizontal_bias="0.1"
+            app:layout_constraintLeft_toRightOf="@+id/last_price_detail"
+            app:layout_constraintRight_toLeftOf="@+id/detail_change_percent"
+            tools:text="+0.19"
+            />
 
         <TextView
             android:id="@+id/detail_change_percent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{viewModel.percentChange}"
-            android:textColor="@{viewModel.changeDoub >= 0 ? color.GREEN : color.RED}"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="@{viewModel.changeDoub >= 0 ? color.GREEN : color.RED}"
             app:layout_constraintLeft_toRightOf="@+id/detail_change"
-            tools:text="(50.26%)"
-            app:layout_constraintTop_toTopOf="@+id/detail_change"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"/>
+            app:layout_constraintTop_toTopOf="@+id/detail_change"
+            tools:text="(50.26%)"
+            />
 
         <TextView
             android:id="@+id/detail_volume"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{viewModel.volume}"
-            tools:text="20,066,208"
-            app:layout_constraintLeft_toLeftOf="@+id/market_cap_detail"
             android:layout_marginTop="16dp"
-            app:layout_constraintTop_toBottomOf="@+id/market_cap_detail"/>
+            android:text="@{viewModel.volume}"
+            app:layout_constraintLeft_toLeftOf="@+id/market_cap_detail"
+            app:layout_constraintTop_toBottomOf="@+id/market_cap_detail"
+            tools:text="20,066,208"/>
 
         <TextView
             android:id="@+id/detail_change_ytd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{viewModel.changeYtdDollars}"
-            tools:text="$5.95"
-            app:layout_constraintLeft_toLeftOf="@+id/detail_volume"
             android:layout_marginTop="16dp"
-            app:layout_constraintTop_toBottomOf="@+id/detail_volume"/>
+            android:text="@{viewModel.changeYtdDollars}"
+            app:layout_constraintLeft_toLeftOf="@+id/detail_volume"
+            app:layout_constraintTop_toBottomOf="@+id/detail_volume"
+            tools:text="$5.95"/>
 
         <TextView
             android:id="@+id/detail_change_per_ytd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
             android:text="@{viewModel.changeYtdPercent}"
             app:layout_constraintLeft_toRightOf="@+id/detail_change_ytd"
-            tools:text="(19.05%)"
-            android:layout_marginTop="16dp"
             app:layout_constraintTop_toBottomOf="@+id/detail_volume"
-            android:layout_marginStart="8dp"/>
+            tools:text="(19.05%)"/>
 
         <TextView
             android:id="@+id/detail_high"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{viewModel.stock.high.toString()}"
-            tools:text="$60.00"
-            app:layout_constraintLeft_toRightOf="@+id/detail_high_label"
             android:layout_marginLeft="24dp"
+            android:layout_marginStart="24dp"
             android:layout_marginTop="32dp"
+            android:text="@{viewModel.stock.high.toString()}"
+            app:layout_constraintLeft_toRightOf="@+id/detail_high_label"
             app:layout_constraintTop_toBottomOf="@+id/company_symbol_text_detail"
-            android:layout_marginStart="24dp"/>
+            tools:text="$60.00"/>
 
         <TextView
             android:id="@+id/detail_low"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{viewModel.stock.low.toString()}"
-            tools:text="$53.32"
-            app:layout_constraintLeft_toLeftOf="@+id/detail_high"
             android:layout_marginTop="16dp"
-            app:layout_constraintTop_toBottomOf="@+id/detail_high"/>
+            android:text="@{viewModel.stock.low.toString()}"
+            app:layout_constraintLeft_toLeftOf="@+id/detail_high"
+            app:layout_constraintTop_toBottomOf="@+id/detail_high"
+            tools:text="$53.32"/>
 
         <TextView
             android:id="@+id/detail_open"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{viewModel.stock.open.toString()}"
-            tools:text="$53.50"
-            app:layout_constraintLeft_toLeftOf="@+id/detail_low"
             android:layout_marginTop="16dp"
-            app:layout_constraintTop_toBottomOf="@+id/detail_low"/>
+            android:text="@{viewModel.stock.open.toString()}"
+            app:layout_constraintLeft_toLeftOf="@+id/detail_low"
+            app:layout_constraintTop_toBottomOf="@+id/detail_low"
+            tools:text="$53.50"/>
 
         <TextView
             android:id="@+id/detail_high_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="33dp"
             android:text="@string/High"
+            android:textStyle="bold"
             app:layout_constraintLeft_toLeftOf="@+id/company_symbol_text_detail"
             app:layout_constraintTop_toBottomOf="@+id/company_symbol_text_detail"/>
 
@@ -245,6 +279,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="@string/Low"
+            android:textStyle="bold"
             app:layout_constraintLeft_toLeftOf="@+id/detail_high_label"
             app:layout_constraintTop_toBottomOf="@+id/detail_high_label"/>
 
@@ -254,37 +289,40 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="@string/Open"
+            android:textStyle="bold"
             app:layout_constraintLeft_toLeftOf="@+id/detail_low_label"
-            app:layout_constraintTop_toBottomOf="@+id/detail_low_label"
-            />
+            app:layout_constraintTop_toBottomOf="@+id/detail_low_label"/>
 
         <TextView
             android:id="@+id/detail_market_cap_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="48dp"
-            android:text="Market Cap"
-            app:layout_constraintLeft_toRightOf="@+id/detail_high"
+            android:layout_marginStart="48dp"
             android:layout_marginTop="32dp"
-            app:layout_constraintTop_toBottomOf="@+id/last_price_detail"
-            android:layout_marginStart="48dp"/>
+            android:text="Market Cap"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toRightOf="@+id/detail_high"
+            app:layout_constraintTop_toBottomOf="@+id/last_price_detail"/>
 
         <TextView
             android:id="@+id/detail_volume_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Volume"
-            app:layout_constraintLeft_toLeftOf="@+id/detail_market_cap_label"
             android:layout_marginTop="16dp"
+            android:text="Volume"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="@+id/detail_market_cap_label"
             app:layout_constraintTop_toBottomOf="@+id/detail_market_cap_label"/>
 
         <TextView
             android:id="@+id/detail_ytd_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="YTD Change"
-            app:layout_constraintLeft_toLeftOf="@+id/detail_volume_label"
             android:layout_marginTop="16dp"
+            android:text="YTD Change"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="@+id/detail_volume_label"
             app:layout_constraintTop_toBottomOf="@+id/detail_volume_label"/>
 
         <TextView
@@ -294,6 +332,7 @@
             android:layout_marginTop="32dp"
             android:text="@string/holdingsChange"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textStyle="bold"
             app:layout_constraintLeft_toLeftOf="@+id/quantity_text_edit"
             app:layout_constraintTop_toBottomOf="@+id/quantity_text_edit"/>
 
@@ -302,22 +341,23 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
             android:text="@{viewModel.holdingsChangeDollars}"
+
             app:layout_constraintBottom_toBottomOf="@+id/detail_holding_label"
             app:layout_constraintLeft_toRightOf="@+id/detail_holding_label"
-            tools:text="$200,000"
-            android:layout_marginStart="16dp"/>
+            tools:text="$200,000"/>
 
         <TextView
             android:id="@+id/detail_holdings_change_percent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="TextView"
-            tools:text="(35%)"
-            app:layout_constraintLeft_toRightOf="@+id/detail_holdings_change"
             android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            android:text="TextView"
             app:layout_constraintBottom_toBottomOf="@+id/detail_holdings_change"
-            android:layout_marginStart="8dp"/>
+            app:layout_constraintLeft_toRightOf="@+id/detail_holdings_change"
+            tools:text="(35%)"/>
     </android.support.constraint.ConstraintLayout>
 
 </layout>

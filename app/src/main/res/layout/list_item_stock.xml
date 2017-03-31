@@ -20,6 +20,7 @@
         app:cardElevation="@dimen/cardview_default_elevation"
         app:cardUseCompatPadding="true"
         android:onClick="@{()-> viewModel.onClickTransItem()}"
+        android:background="?attr/selectableItemBackgroundBorderless"
         >
 
         <android.support.constraint.ConstraintLayout

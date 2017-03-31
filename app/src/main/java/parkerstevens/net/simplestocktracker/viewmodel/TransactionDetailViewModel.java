@@ -1,6 +1,6 @@
 package parkerstevens.net.simplestocktracker.viewmodel;
 
-import android.content.Context;
+import android.app.Activity;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.util.Log;
@@ -27,14 +27,14 @@ import static android.content.ContentValues.TAG;
  */
 
 public class TransactionDetailViewModel extends BaseObservable {
-    private Context mContext;
+    private Activity mContext;
     private String mName;
     private String mSymbol;
     private Transaction mTransaction;
     private UUID mUUID;
     private Stock mStock;
 
-    public TransactionDetailViewModel(String symbol, UUID uuid, Context context) {
+    public TransactionDetailViewModel(String symbol, UUID uuid, Activity context) {
         mContext = context;
         mSymbol = symbol;
         mUUID = uuid;
@@ -158,7 +158,7 @@ public class TransactionDetailViewModel extends BaseObservable {
             }
             return addChar + df.format(mStock.getChange());
         }
-        Toast.makeText(mContext, "Unable to get stock data", Toast.LENGTH_LONG).show();
+        Toast.makeText(mContext, "Loadin or no stock data", Toast.LENGTH_SHORT).show();
         return "";
     }
 
@@ -257,6 +257,10 @@ public class TransactionDetailViewModel extends BaseObservable {
             }
         }
         return "";
+    }
+
+    public void onToolbarIconClick(){
+        mContext.onBackPressed();
     }
 
 

@@ -1,5 +1,6 @@
 package parkerstevens.net.simplestocktracker.view;
 
+
 import android.app.Dialog;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
@@ -20,8 +21,8 @@ import parkerstevens.net.simplestocktracker.R;
 import parkerstevens.net.simplestocktracker.databinding.DialogStockSearchBinding;
 import parkerstevens.net.simplestocktracker.databinding.ListItemLookupBinding;
 import parkerstevens.net.simplestocktracker.model.CompanyLookup;
-import parkerstevens.net.simplestocktracker.viewmodel.LookupItemViewModel;
 import parkerstevens.net.simplestocktracker.viewmodel.LookupDialogViewModel;
+import parkerstevens.net.simplestocktracker.viewmodel.LookupItemViewModel;
 
 /**
  * Created by pstev on 3/7/2017.

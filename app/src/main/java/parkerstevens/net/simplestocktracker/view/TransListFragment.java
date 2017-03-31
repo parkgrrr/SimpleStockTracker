@@ -9,8 +9,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,16 +40,9 @@ public class TransListFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
         mStocksHelper = StocksHelper.get(getActivity());
         mTransListViewModel = new TransListViewModel(getFragmentManager(), getContext());
 
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.fragment_stock_list_menu, menu);
     }
 
     @Override
@@ -72,13 +63,12 @@ public class TransListFragment extends Fragment {
             mStockAdapter = new StockAdapter(mStocksHelper.getTransactions());
         }
 
-
-
-
         FragmentStockListBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_stock_list, container, false);
+        binding.toolbar.inflateMenu(R.menu.fragment_stock_list_menu);
         binding.setViewModel(mTransListViewModel);
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         binding.recyclerView.setAdapter(mStockAdapter);
+
 
         mTransListViewModel.createItemTouchHelper(mStockAdapter)
                 .attachToRecyclerView(binding.recyclerView);
