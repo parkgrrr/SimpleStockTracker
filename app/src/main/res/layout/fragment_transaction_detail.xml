@@ -20,14 +20,15 @@
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar3"
             android:layout_width="0dp"
-            android:layout_height="?attr/actionBarSize"
+            android:layout_height="56dp"
             android:background="?attr/colorPrimary"
             android:clickable="false"
             android:minHeight="?attr/actionBarSize"
             android:theme="@style/NavTitle"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            >
 
             <ImageButton
                 android:layout_width="wrap_content"
@@ -42,8 +43,9 @@
                 style="@style/NavTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text='@{viewModel.symbol + " Detail"}'
-                android:textAlignment="viewStart"/>
+                android:text='@{viewModel.symbol}'
+                android:textAlignment="viewStart"
+                tools:text="MSFT"/>
 
 
         </android.support.v7.widget.Toolbar>
@@ -52,44 +54,29 @@
             android:id="@+id/company_name_text_detail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             android:text="@{viewModel.name}"
+            android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintLeft_toLeftOf="@+id/company_symbol_text_detail"
+            android:textSize="30sp"
+            android:textStyle="bold"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolbar3"
-            tools:text="Microsoft Corporation and sons"/>
-
-        <TextView
-            android:id="@+id/company_symbol_text_detail"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="28dp"
-            android:text="@{viewModel.symbol}"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@+id/last_price_detail"
-            app:layout_constraintTop_toBottomOf="@+id/company_name_text_detail"
-            tools:text="MSFT"/>
+            tools:text="Microsoft Corporation"
+            app:layout_constraintLeft_toLeftOf="@+id/last_price_detail"
+            app:layout_constraintHorizontal_bias="0.0"/>
 
         <EditText
             android:id="@+id/quantity_text_edit"
             android:layout_width="70dp"
             android:layout_height="42dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginTop="8dp"
             android:ems="10"
             android:inputType="number"
             android:text="@={viewModel.quantity}"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="@+id/quantity_label"
-            app:layout_constraintTop_toBottomOf="@+id/detail_open_label"
-            tools:text="100"/>
+            tools:text="100"
+            android:layout_marginTop="64dp"
+            app:layout_constraintTop_toBottomOf="@+id/detail_open_label"/>
 
         <EditText
             android:id="@+id/price_text_edit"
@@ -164,11 +151,13 @@
             android:id="@+id/last_price_detail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
             android:text="@{viewModel.lastPrice}"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            app:layout_constraintLeft_toRightOf="@+id/company_symbol_text_detail"
+            android:textSize="30sp"
+            app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toLeftOf="@+id/detail_change"
-            app:layout_constraintTop_toTopOf="@+id/company_symbol_text_detail"
+            app:layout_constraintTop_toBottomOf="@+id/company_name_text_detail"
             tools:text="$53.65"/>
 
         <TextView
@@ -178,12 +167,10 @@
             android:text="@{viewModel.change}"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textColor="@{viewModel.changeDoub >= 0 ? color.GREEN : color.RED}"
-            app:layout_constraintBottom_toBottomOf="@+id/last_price_detail"
-            app:layout_constraintHorizontal_bias="0.1"
             app:layout_constraintLeft_toRightOf="@+id/last_price_detail"
             app:layout_constraintRight_toLeftOf="@+id/detail_change_percent"
             tools:text="+0.19"
-            />
+            app:layout_constraintBaseline_toBaselineOf="@+id/last_price_detail"/>
 
         <TextView
             android:id="@+id/detail_change_percent"
@@ -194,9 +181,10 @@
             android:textColor="@{viewModel.changeDoub >= 0 ? color.GREEN : color.RED}"
             app:layout_constraintLeft_toRightOf="@+id/detail_change"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/detail_change"
             tools:text="(50.26%)"
-            />
+            android:layout_marginRight="100dp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/detail_change"
+            android:layout_marginEnd="100dp"/>
 
         <TextView
             android:id="@+id/detail_volume"
@@ -236,11 +224,11 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="24dp"
             android:layout_marginStart="24dp"
-            android:layout_marginTop="32dp"
             android:text="@{viewModel.stock.high.toString()}"
             app:layout_constraintLeft_toRightOf="@+id/detail_high_label"
-            app:layout_constraintTop_toBottomOf="@+id/company_symbol_text_detail"
-            tools:text="$60.00"/>
+            tools:text="$60.00"
+            app:layout_constraintTop_toTopOf="@+id/detail_high_label"
+            />
 
         <TextView
             android:id="@+id/detail_low"
@@ -266,12 +254,10 @@
             android:id="@+id/detail_high_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="0dp"
-            android:layout_marginTop="33dp"
             android:text="@string/High"
             android:textStyle="bold"
-            app:layout_constraintLeft_toLeftOf="@+id/company_symbol_text_detail"
-            app:layout_constraintTop_toBottomOf="@+id/company_symbol_text_detail"/>
+            app:layout_constraintTop_toTopOf="@+id/detail_market_cap_label"
+            app:layout_constraintLeft_toLeftOf="@+id/last_price_detail"/>
 
         <TextView
             android:id="@+id/detail_low_label"
@@ -299,7 +285,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="48dp"
             android:layout_marginStart="48dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="33dp"
             android:text="Market Cap"
             android:textStyle="bold"
             app:layout_constraintLeft_toRightOf="@+id/detail_high"
@@ -309,7 +295,7 @@
             android:id="@+id/detail_volume_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="15dp"
             android:text="Volume"
             android:textStyle="bold"
             app:layout_constraintLeft_toLeftOf="@+id/detail_market_cap_label"
@@ -329,12 +315,15 @@
             android:id="@+id/detail_holding_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
             android:text="@string/holdingsChange"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textStyle="bold"
             app:layout_constraintLeft_toLeftOf="@+id/quantity_text_edit"
-            app:layout_constraintTop_toBottomOf="@+id/quantity_text_edit"/>
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="9dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/quantity_text_edit"
+            app:layout_constraintVertical_bias="0.0"/>
 
         <TextView
             android:id="@+id/detail_holdings_change"

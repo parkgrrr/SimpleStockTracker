@@ -158,7 +158,7 @@ public class TransactionDetailViewModel extends BaseObservable {
             }
             return addChar + df.format(mStock.getChange());
         }
-        Toast.makeText(mContext, "Loadin or no stock data", Toast.LENGTH_SHORT).show();
+        Toast.makeText(mContext, "Loading or no stock data", Toast.LENGTH_SHORT).show();
         return "";
     }
 

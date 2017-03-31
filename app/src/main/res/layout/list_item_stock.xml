@@ -15,12 +15,12 @@
         android:id="@+id/card_stock_item"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        app:cardBackgroundColor="@color/cardview_light_background"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:onClick="@{()-> viewModel.onClickTransItem()}"
+        app:cardBackgroundColor="@color/myCardColor"
         app:cardCornerRadius="@dimen/cardview_default_radius"
         app:cardElevation="@dimen/cardview_default_elevation"
         app:cardUseCompatPadding="true"
-        android:onClick="@{()-> viewModel.onClickTransItem()}"
-        android:background="?attr/selectableItemBackgroundBorderless"
         >
 
         <android.support.constraint.ConstraintLayout
@@ -38,65 +38,67 @@
                 android:id="@+id/last_price_text"
                 android:layout_width="70dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_marginStart="36dp"
-                android:layout_marginTop="0dp"
                 android:text="@{viewModel.lastPrice}"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                card_view:layout_constraintBaseline_toBaselineOf="@+id/stock_symbol_text"
                 card_view:layout_constraintLeft_toRightOf="@+id/stock_symbol_text"
-                card_view:layout_constraintTop_toTopOf="parent"
+                card_view:layout_constraintRight_toLeftOf="@+id/stock_percent"
                 tools:ignore="RtlHardcoded"
                 tools:text="$1000.00"/>
 
             <TextView
                 android:id="@+id/stock_symbol_text"
-                android:layout_width="50dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="44dp"
-                android:layout_marginStart="26dp"
-                android:layout_marginTop="0dp"
                 android:text="@{viewModel.symbol}"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                card_view:layout_constraintBottom_toTopOf="@+id/company_name_text"
+                card_view:layout_constraintHorizontal_chainStyle="spread"
                 card_view:layout_constraintLeft_toLeftOf="parent"
+                card_view:layout_constraintRight_toLeftOf="@+id/last_price_text"
                 card_view:layout_constraintTop_toTopOf="parent"
+                card_view:layout_constraintVertical_chainStyle="spread"
                 tools:ignore="RtlHardcoded"
-                tools:layout_constraintLeft_creator="1"
-                tools:layout_constraintTop_creator="1"
                 tools:text="MSFT"/>
 
             <TextView
                 android:id="@+id/company_name_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:layout_marginLeft="26dp"
+                android:layout_marginBottom="0dp"
+                android:layout_marginLeft="0dp"
                 android:text="@{viewModel.getName}"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 card_view:layout_constraintBottom_toBottomOf="parent"
-                card_view:layout_constraintLeft_toLeftOf="parent"
-                tools:text="Microsoft"
-                tools:ignore="RtlHardcoded"/>
+                card_view:layout_constraintLeft_toLeftOf="@+id/stock_symbol_text"
+                card_view:layout_constraintTop_toBottomOf="@+id/stock_symbol_text"
+                tools:ignore="RtlHardcoded"
+                tools:text="Microsoft"/>
 
             <TextView
                 android:id="@+id/stock_percent"
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="0dp"
                 android:text="@{viewModel.changePercent}"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textColor="@{viewModel.changePerInt >= 0 ? color.GREEN : color.RED }"
+                card_view:layout_constraintBaseline_toBaselineOf="@+id/last_price_text"
                 card_view:layout_constraintLeft_toRightOf="@+id/last_price_text"
-                card_view:layout_constraintTop_toTopOf="parent"
-                tools:text="15%"/>
+                card_view:layout_constraintRight_toLeftOf="@+id/change_dollars"
+                tools:text="15.02%"
+                tools:textColor="@color/myGreen"/>
 
             <TextView
                 android:id="@+id/change_dollars"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@{viewModel.changeDollars}"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textColor="@{viewModel.changePerInt >= 0 ? color.GREEN : color.RED}"
-                tools:text="$2.00"
+                card_view:layout_constraintBaseline_toBaselineOf="@+id/stock_percent"
                 card_view:layout_constraintLeft_toRightOf="@+id/stock_percent"
-                android:layout_marginLeft="8dp"
-                card_view:layout_constraintTop_toTopOf="parent"
-                android:layout_marginTop="0dp"/>
+                card_view:layout_constraintRight_toRightOf="parent"
+                tools:text="$2.00"/>
 
 
         </android.support.constraint.ConstraintLayout>
