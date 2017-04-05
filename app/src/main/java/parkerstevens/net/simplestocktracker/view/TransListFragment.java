@@ -8,6 +8,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -42,19 +43,8 @@ public class TransListFragment extends Fragment {
         super.onCreate(savedInstanceState);
         mStocksHelper = StocksHelper.get(getActivity());
         mTransListViewModel = new TransListViewModel(getFragmentManager(), getContext());
-
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.refresh_button:
-                refreshStocks(mTransListViewModel);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
 
     @Nullable
     @Override
@@ -64,10 +54,22 @@ public class TransListFragment extends Fragment {
         }
 
         FragmentStockListBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_stock_list, container, false);
-        binding.toolbar.inflateMenu(R.menu.fragment_stock_list_menu);
         binding.setViewModel(mTransListViewModel);
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         binding.recyclerView.setAdapter(mStockAdapter);
+        binding.toolbar.inflateMenu(R.menu.fragment_stock_list_menu);
+        binding.toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.refresh_button:
+                        refreshStocks(mTransListViewModel);
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+        });
 
 
         mTransListViewModel.createItemTouchHelper(mStockAdapter)
